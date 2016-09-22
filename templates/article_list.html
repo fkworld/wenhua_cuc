@@ -1,0 +1,14 @@
+{%extends "base.html"%}
+
+{%block page_left_head%}
+<span class="glyphicon glyphicon-home"></span>
+<a href="/">首页</a>
+<span class="glyphicon glyphicon-chevron-right"></span>
+<a href="javascript:void(0)" class="disable">管理员功能</a>
+<span class="glyphicon glyphicon-chevron-right"></span>
+<a href="javascript:void(0)" class="disable">显示文章列表</a>
+{%endblock%}
+
+{%block page_left_body%}
+{%include 'articles.html'%}
+{%endblock%}

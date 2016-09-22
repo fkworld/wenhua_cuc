@@ -1,0 +1,18 @@
+{%for article in articles%}
+<div id="article">
+    {%if article.flag_id==2 or current_user.is_authenticated%}
+    <!--管理员全部显示，非管理员只能显示flag_id==1的文章-->
+    {%if current_user.is_authenticated%}
+    <a href="{{url_for('views_blueprint.edit_article',article_id=article.id)}}" class="label label-info"><span class="glyphicon glyphicon-pencil"></span>修改</a>
+    <a href="{{url_for('views_blueprint.delete_article',article_id=article.id)}}" class="label label-danger"><span class="glyphicon glyphicon-trash"></span>删除</a>
+    <a class="label label-default disabled">{{article.get_tag_name()}}</a>
+        {%if article.flag_id==1%}
+        <a class="label label-default disabled"><span class="glyphicon glyphicon-edit"></span>文章还在修改过程中</a>
+        {%endif%}
+    {%endif%}
+    {%endif%}
+    <span class="glyphicon glyphicon-file"></span>
+    <a href="{{url_for('views_blueprint.article',tag_id=article.tag_id,article_id=article.id)}}">{{article.title}}</a>
+    <br>
+</div>
+{%endfor%}

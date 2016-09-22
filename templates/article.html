@@ -1,0 +1,36 @@
+{%extends "base.html"%}
+
+{%block page_left_head%}
+<span class="glyphicon glyphicon-home"></span>
+<a href="/">首页</a>
+<span class="glyphicon glyphicon-chevron-right"></span>
+<a href="" class="disable">{{article.get_tag_name()}}</a>
+<span class="glyphicon glyphicon-chevron-right"></span>
+<a href="" class="disable">{{article.title}}</a>
+{%endblock%}
+
+{%block page_left_body%}
+<div id="article_title">
+    <h2>{{article.title}}</h2>
+</div>
+<div id="article_info">
+    <a class="label label-default"><span class="glyphicon glyphicon-tag"></span>{{article.get_tag_name()}}</a>
+    <a class="label label-default"><span class="glyphicon glyphicon-time"></span>{{article.create_datetime}}</a>
+    <a class="label label-default"><span class="glyphicon glyphicon-user"></span>{{article.author}}</a>
+    {%if current_user.is_authenticated%}
+    <a href="{{url_for('views_blueprint.edit_article',article_id=article.id)}}" class="label label-info"><span class="glyphicon glyphicon-pencil"></span>修改</a>
+    <a href="{{url_for('views_blueprint.delete_article',article_id=article.id)}}" class="label label-danger"><span class="glyphicon glyphicon-trash"></span>删除</a>
+        {%if article.flag_id==2%}
+        <a class="label label-default disabled"><span class="glyphicon glyphicon-edit"></span>文章还在修改过程中</a>
+        {%endif%}
+    {%endif%}
+</div>
+<hr>
+<div id="article_body">
+    {%if article.body_html%}
+        {{article.body_html | safe}}
+    {%else%}
+        {{article.body}}
+    {%endif%}
+</div>
+{%endblock%}

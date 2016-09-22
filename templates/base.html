@@ -1,0 +1,67 @@
+{%extends "bootstrap/base.html"%}
+
+{%block navbar%}
+<nav class="container">
+    <h1><strong>国家大学生文化素质教育基地</strong> <small>中国传媒大学站</small></h1>
+    <form class="form-inline">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+            </div>
+            <a type="submit" class="btn btn-info">搜索</a>
+            {%if current_user.is_authenticated%}
+            <a class="btn btn-success" href="/logout"></a>
+            {%else%}
+            <a class="btn btn-danger disabled"></a>
+            {%endif%}
+            <a class="btn btn-primary" href="/">通知</a>
+            <a class="btn btn-primary" href="">展示</a>
+            <a class="btn btn-primary" href="">经验</a>
+            <a class="btn btn-primary" href="">说明</a>
+        </div>
+    </form>
+</nav>
+<hr>
+{%endblock%}
+
+{%block content%}
+<div class="container">
+    {%for message in get_flashed_messages()%}
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+        <strong>通知：</strong>{{message}}
+    </div>
+    {%endfor%}
+    <div class="row">
+        <div id="page_left" class="col-sm-8">
+            {%block page_left_head%}
+            {%endblock%}
+            <hr>
+            {%block page_left_body%}
+            {%endblock%}
+            <hr>
+            {%block page_left_footer%}
+            {%endblock%}
+        </div>
+        <div id="page_right" class="col-sm-4">
+            {%block page_right_head%}
+            {%endblock%}
+            <hr>
+            {%block page_right_body%}
+            {%endblock%}
+            <hr>
+            {%block page_right_footer%}
+            <a class="label label-default" href="/article/contact_us">联系我们</a>
+            <a class="label label-default" href="/article/version">版本说明</a>
+            <a class="label label-default" href="javascript:void(0)">Github</a>
+            {%endblock%}
+        </div>
+    </div>
+<div>
+<br>
+<br>
+<br>
+<br>
+<br>
+{%endblock%}

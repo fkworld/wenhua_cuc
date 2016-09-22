@@ -1,0 +1,44 @@
+<div>
+    <form method='POST' class="form">
+        {{form.hidden_tag()}}
+        <div class="form-group">
+            <label>{{form.title.label}}</label>
+            {{form.title(class="form-control")}}
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-4">
+                {{form.tag_id.label}}
+                {{form.tag_id(class="form-control")}}
+                </div>
+                <div class="col-sm-4">
+                {{form.flag_id.label}}
+                {{form.flag_id(class="form-control")}}
+                </div>
+                <div class="col-sm-4">
+                {{form.author.label}}
+                {{form.author(class="form-control")}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label>{{form.context_html.label}}</label>
+                    {{form.context_html(class="form-control",rows=30)}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label>{{form.ps_html.label}}</label>
+                    {{form.ps_html(class="form-control",rows=10)}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            {{form.submit(class="btn btn-default") }}
+        </div>
+    </form>
+</div>
