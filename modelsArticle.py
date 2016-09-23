@@ -8,11 +8,11 @@ class Article(db.Model):
     author=db.Column(db.String(64))
     tag_id=db.Column(db.Integer)
     flag_id=db.Column(db.Integer)
-    create_datetime=db.Column(db.DateTime)
+    update_datetime=db.Column(db.DateTime)
     context_html=db.Column(db.Text)
     ps_html=db.Column(db.Text)
 
-    tags=('$','通知','展示','交流','说明')
+    tags=('通知','展示','交流','说明')
     flags=('系统文件','展示文件','修改中文件','删除后备份文件')
 
     def get_tag_name(self):
@@ -33,8 +33,8 @@ class Article(db.Model):
             self.flag_id=2 #修改中文件
         
     def set_id(self):
-        if self.id is None or len(self.id)==14: 
-            self.id=self.create_datetime.strftime('%Y%m%d%H%M%S')
+        if self.id is None:
+            self.id=self.update_datetime.strftime('%Y%m%d%H%M%S')
 
     def update_db(self):
         db.session.add(self)
@@ -47,5 +47,5 @@ class Article(db.Model):
         self.flag_id=form.flag_id.data
         self.context_html=form.context_html.data
         self.ps_html=form.ps_html.data
-        self.create_datetime=datetime.now()
+        self.update_datetime=datetime.now()
         self.set_id()

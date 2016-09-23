@@ -47,7 +47,7 @@ def new_article():
         article.set_all_by_form_6_values(form)
         article.update_db()
         flash('文章提交成功')
-        return redirect(url_for('views_blueprint.article',tag_id=article.tag_id,article_id=article.id))
+        return redirect(url_for('views_blueprint.get_article',article_id=article.id))
     return render_template('new_article.html',form=form)
 
 @views_blueprint.route('/edit_article/<article_id>',methods=['GET','POST'])
@@ -59,7 +59,7 @@ def edit_article(article_id):
         article.set_all_by_form_6_values(form)
         article.update_db()
         flash('文章已更新成功')
-        return redirect(url_for('views_blueprint.article',tag_id=article.tag_id,article_id=article.id))
+        return redirect(url_for('views_blueprint.get_article',article_id=article.id))
     form.set_form_data(article)
     return render_template('edit_article.html',form=form)
 
@@ -76,29 +76,27 @@ def delete_article(article_id):
 def show_articles():
     articles=Article.query.all()
     articles.reverse()
-    return render_template('article_list.html',articles=articles)
+    return render_template('articles.html',articles=articles)
 
-@views_blueprint.route('/article/contact_us')
-def contact_us():
+@views_blueprint.route('/article/website_info')
+def website_info():
     article=Article.query.get_or_404(1)
     return render_template('article.html',article=article)
 
-@views_blueprint.route('/article/version')
-def version():
+@views_blueprint.route('/article/update_info')
+def update_info():
     article=Article.query.get_or_404(2)
     return render_template('article.html',article=article)
 
-
-@views_blueprint.route('/article/<tag_id>/<article_id>')
-def article(tag_id,article_id):
+@views_blueprint.route('/article/<article_id>')
+def get_article(article_id):
     article=Article.query.get_or_404(article_id)
     return render_template('article.html',article=article)
 
 @views_blueprint.route('/article/<tag_id>/')
-def show_article_by_tag(tag_id):
+def get_articles_by_tag(tag_id):
     articles=Article.query.filter_by(tag_id=tag_id)
     return render_template('index.html',articles=articles)
-
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
