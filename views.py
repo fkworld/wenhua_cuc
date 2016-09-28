@@ -100,11 +100,4 @@ def get_articles_by_tag(tag_id):
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
-    form=LoginForm()
-    if form.validate_on_submit():
-        admin=Admin()
-        admin.account=form.account.data
-        admin.set_password_hash(form.password.data)
-        db.session.add(admin)
-        db.session.commit()
-    return render_template('login.html',form=form)
+    return render_template('__test.html')
