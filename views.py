@@ -100,4 +100,4 @@ def get_articles_by_tag(tag_id):
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
-    return render_template('__test.html')
+    return render_template('_test.html')
