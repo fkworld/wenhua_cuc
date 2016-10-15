@@ -10,9 +10,12 @@ views_blueprint=Blueprint('views_blueprint',__name__)
 
 @views_blueprint.route('/',methods=['GET','POST'])
 def index():
+    news=Article.query.get_or_404(20161011174321)
+    messages=Article.query.get_or_404(20161011180313)
+
     articles=Article.query.all()
     articles.reverse()
-    return render_template('index.html',articles=articles)
+    return render_template('index.html',news=news,messages=messages,articles=articles)
 
 @views_blueprint.app_errorhandler(404)
 def page_not_found(e):
@@ -66,9 +69,8 @@ def edit_article(article_id):
 @views_blueprint.route('/delete_article/<article_id>',methods=['GET','POST'])
 def delete_article(article_id):
     article=Article.query.get_or_404(article_id)
-    db.session.delete(article)
-    db.session.commit()
-    flash('文章删除成功')
+    message=article.delete()
+    flash(message)
     return redirect(url_for('views_blueprint.show_articles'))
 
 @views_blueprint.route('/show_articles')
@@ -80,12 +82,12 @@ def show_articles():
 
 @views_blueprint.route('/article/website_info')
 def website_info():
-    article=Article.query.get_or_404(1)
+    article=Article.query.get_or_404(20161011181000)
     return render_template('article.html',article=article)
 
 @views_blueprint.route('/article/update_info')
 def update_info():
-    article=Article.query.get_or_404(2)
+    article=Article.query.get_or_404(20161011181029)
     return render_template('article.html',article=article)
 
 @views_blueprint.route('/article/<article_id>')
