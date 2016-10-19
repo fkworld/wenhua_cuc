@@ -102,4 +102,8 @@ def get_articles_by_tag(tag_id):
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
-    return render_template('_test.html')
+    article=Article()
+    article.id=1
+    article.title='中文测试'
+    db.session.add(article)
+    db.session.commit()
