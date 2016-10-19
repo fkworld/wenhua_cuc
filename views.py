@@ -107,3 +107,4 @@ def _test():
     article.title='中文测试'
     db.session.add(article)
     db.session.commit()
+    return render_template('_test.html')
