@@ -102,5 +102,5 @@ def get_articles_by_tag(tag_id):
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
-    message='test'
+    message='中文测试命令'
     return render_template('_test.html',message=message)
