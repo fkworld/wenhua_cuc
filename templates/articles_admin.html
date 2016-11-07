@@ -4,6 +4,7 @@
             <td>文档编号</td>
             <td>文档标题</td>
             <td>文档状态</td>
+            <td>文档类别</td>
             <td>文档操作</td>
         </tr>
         {%for article in articles%}
@@ -11,6 +12,7 @@
             <td>{{article.id}}</td>
             <td><a href="{{url_for('views_blueprint.get_article',article_id=article.id)}}">{{article.title}}</a></td>
             <td>{{article.flag_id}}</td>
+            <td>{{article.tag_id}}</td>
             <td>
                 <a href="{{url_for('views_blueprint.edit_article',article_id=article.id)}}" class="label label-info"><span class="glyphicon glyphicon-pencil"></span>修改</a>
                 <a href="{{url_for('views_blueprint.delete_article',article_id=article.id)}}" class="label label-danger"><span class="glyphicon glyphicon-trash"></span>删除</a>

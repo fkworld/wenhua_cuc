@@ -10,9 +10,10 @@ views_blueprint=Blueprint('views_blueprint',__name__)
 
 @views_blueprint.route('/',methods=['GET','POST'])
 def index():
-    news=Article.query.get_or_404(20161011174321)
-    messages=Article.query.get_or_404(20161011180313)
-
+    news=Article.query.get_or_404(20161107154814)
+    #基础文件：首页新闻，数据库写死，目前ID：20161107154814
+    messages=Article.query.get_or_404(20161107154822)
+    #基础文件：首页边栏，数据库写死，目前ID：20161107154822
     articles=Article.query.all()
     articles.reverse()
     return render_template('index.html',news=news,messages=messages,articles=articles)
@@ -82,12 +83,14 @@ def show_articles():
 
 @views_blueprint.route('/article/website_info')
 def website_info():
-    article=Article.query.get_or_404(20161011181000)
+    article=Article.query.get_or_404(20161107154545)
+    #基础文件：网站说明，数据库写死，目前ID：20161107154545
     return render_template('article.html',article=article)
 
 @views_blueprint.route('/article/update_info')
 def update_info():
-    article=Article.query.get_or_404(20161011181029)
+    article=Article.query.get_or_404(20161107154806)
+    #基础文件：更新公告，数据库写死，目前ID：20161107154806
     return render_template('article.html',article=article)
 
 @views_blueprint.route('/article/<article_id>')
