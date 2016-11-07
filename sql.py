@@ -7,4 +7,4 @@ create table articles(
     create_datetime datetime,
     context_html text,
     ps_html text
-)
+)default charset=utf8
