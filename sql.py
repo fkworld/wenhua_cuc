@@ -1,3 +1,5 @@
+SQL新建数据表命令：
+
 create table articles(
     id char(14) not null primary key,
     title char(64),
