@@ -4,7 +4,7 @@
 <span class="glyphicon glyphicon-home"></span>
 <a href="/">文档</a>
 <span class="glyphicon glyphicon-chevron-right"></span>
-<a href="" class="disable">{{article.get_tag_name()}}</a>
+<a href="{{url_for('views_blueprint.get_articles_by_tag',tag_id=article.tag_id)}}" class="disable">{{article.get_tag_name()}}</a>
 <span class="glyphicon glyphicon-chevron-right"></span>
 <a href="" class="disable">{{article.title}}</a>
 {%endblock%}
