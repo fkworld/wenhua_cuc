@@ -101,7 +101,7 @@ def get_article(article_id):
 @views_blueprint.route('/article/<tag_id>/')
 def get_articles_by_tag(tag_id):
     articles=Article.query.filter_by(tag_id=tag_id)
-    return render_template('index.html',articles=articles)
+    return render_template('articles_visitor.html',articles=articles)
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
