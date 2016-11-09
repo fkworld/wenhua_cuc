@@ -98,7 +98,7 @@ def get_article(article_id):
     article=Article.query.get_or_404(article_id)
     return render_template('article.html',article=article)
 
-@views_blueprint.route('/article/<tag_id>/')
+@views_blueprint.route('/article/<tag_id>')
 def get_articles_by_tag(tag_id):
     articles=Article.query.filter_by(tag_id=tag_id)
     return render_template('articles.html',articles=articles)
