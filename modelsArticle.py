@@ -1,56 +1,136 @@
-from main import db
 from datetime import datetime
 
-class Article(db.Model):
-    __tablename__='articles'
-    id=db.Column(db.String(14),primary_key=True)
-    title=db.Column(db.String(64))
-    author=db.Column(db.String(64))
-    tag_id=db.Column(db.Integer)
-    flag_id=db.Column(db.Integer)
-    create_datetime=db.Column(db.DateTime)
-    context_html=db.Column(db.Text)
-    ps_html=db.Column(db.Text)
+from sql import SQL
 
-    tags=('','通知','展示','交流','说明')
-    flags=('','正常发布文档','修改中文档','系统文档','删除后服务器备份文档')
+class Article(object):
+
+
+    def __init__(self):
+        self.table_name = 'articles'
+        self.sql = SQL()
+        self.tags = {
+            'NOTICE':'通知',
+            'SHOW':'展示',
+            'EXP':'经验',
+            'LOG':'日志',
+        }
+        self.flags = {
+            'ONLINE':'在线发布文档',
+            'OFFLINE':'离线发布文档',
+            'SYSTEM':'系统文档',
+            'BACKUP':'备份文档',
+        }
+        '''
+        id
+        title
+        author
+        tag
+        flag
+        create_time
+        update_time
+        txt_markdown
+        txt_html
+        reading_times
+        '''
 
     def get_tag_name(self):
-        return self.tags[self.tag_id]
+        return self.tags[self.tag]
     
     def get_flag_name(self):
-        return self.flags[self.flag_id]
+        return self.flags[self.flag]
 
     def get_flag_grade(self):
-        if self.flag_id==1:
-            return True
-        else:
-            return False
-        
+        return self.flag is 'NOTICE'
+
+    def get_datetime(self):
+        now_time = datetime.now()
+        return now_time
+
     def set_id(self):
         if self.id is None:
-            self.id=self.create_datetime.strftime('%Y%m%d%H%M%S')
+            self.id = self.create_time.strftime('%Y%m%d%H%M%S')
 
     def delete(self):
-        if self.flag_id!=4:
-            self.flag_id=4
-            self.update_db()
-            return '文章已经从列表中删除，但是还在数据库中有备份'
+        target_list = ['id', self.id]
+        if self.flag is 'BACKUP':
+            sql.delete_line(self.table_name, target_list)
+            return 'CLEAR DELETE.'
         else:
-            db.session.delete(self)
-            db.session.commit()
-            return '文章备份已经从数据库中完全删除，不可恢复'
+            value_list = ['flag', 'BACKUP']
+            self.sql.update_line_single(self.table_name, value_list, target_list)
+            return 'BACKUP DELECT.'
 
-    def update_db(self):
-        db.session.add(self)
-        db.session.commit()
+    def add_in_db(self, form):
+        # 添加至数据库
+        if self.create_time is None:
+            self.create_time = self.get_datetime().strftime('%Y-%m-%d %H:%M:%S')
+        self.update_time = self.get_datetime.strftime('%Y-%m-%d %H:%M:%S')
+        self.id = self.set_id()
+        self.reading_times = 0 # 以后再做阅读次数的功能
 
-    def set_all_by_form_6_values(self,form):
-        self.title=form.title.data
-        self.author=form.author.data
-        self.tag_id=form.tag_id.data
-        self.flag_id=form.flag_id.data
-        self.context_html=form.context_html.data
-        self.ps_html=form.ps_html.data
-        self.create_datetime=datetime.now()
-        self.set_id()
+        self.title = form.title.data
+        self.author = form.author.data
+        self.tag = form.tag.data
+        self.flag = form.flag.data
+        self.txt_markdown = form.txt_markdown.data
+        self.txt_html = form.txt_html.data
+
+        value_list = [self.id]
+        value_list.append(self.title)
+        value_list.append(self.author)
+        value_list.append(self.tag)
+        value_list.append(self.flag)
+        value_list.append(self.create_time)
+        value_list.append(self.update_time)
+        value_list.append(self.txt_markdown)
+        value_list.append(self.txt_html)
+        value_list.append(self.reading_times)
+
+        self.sql.add_line(self.table_name, value_list)
+
+    def result_to_object(self, sql_result):
+        # sql_result：一行数据是一个元组，整个数据是一个列表；[(-),...]
+        # 从sql_result中获取数据，保存到对象中去
+        result_tuple = sql_result[0]
+        self.id = result_tuple[0]
+        self.title = result_tuple[1]
+        self.author = result_tuple[2]
+        self.tag = result_tuple[3]
+        self.flag = result_tuple[4]
+        self.create_time = result_tuple[5]
+        self.update_time = result_tuple[6]
+        self.txt_markdown = result_tuple[7]
+        self.txt_html = result_tuple[8]
+        self.reading_times = result_tuple[9]
+
+    def result_to_object_list(self, sql_result):
+        # 从sql_result中获取数据，保存为对象列表
+        article_list = []
+        for i in range(len(sql_result)):
+            article = Article()
+            article.result_to_object([sql_result.pop(0)])
+            article_list.append(article)
+        return article_list
+
+    def search_by_id(self, id):
+        # 根据文章id搜索数据库，返回本article对象
+        target_list = ['id', id]
+        result = self.sql.search_line_targetly(self.table_name, target_list)
+        self.result_to_object(result)
+    
+    def search_by_tag(self, tag):
+        # 根据文章tag搜索数据库，返回一个object_list
+        target_list = ['tag', tag]
+        sql_result = self.sql.search_line_targetly(self.table_name, target_list)
+        return self.result_to_object_list(sql_result)
+    
+    def search_by_key_word(self, key_word):
+        # 根据关键字进行全文搜索，以后再做的功能
+        pass
+
+    def search_all(self):
+        # 搜索全部文章，返回一个object_list
+        sql_result = self.sql.search_line_all(self.table_name)
+        return self.result_to_object_list(sql_result)
+
+

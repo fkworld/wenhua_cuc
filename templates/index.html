@@ -6,18 +6,5 @@
 {%endblock%}
 
 {%block page_left_body%}
-<div class="jumbotron" id="news">
-    {{news.context_html | safe}}
-</div>
-<hr>
 {%include 'articles_visitor.html'%}
-{%endblock%}
-
-{%block page_right_head%}
-<span class="glyphicon glyphicon-bookmark"></span>
-<a href="javascript:void(0)">{{messages.title}}</a>
-{%endblock%}
-
-{%block page_right_body%}
-{{messages.context_html | safe}}
 {%endblock%}

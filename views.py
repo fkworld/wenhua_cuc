@@ -4,19 +4,17 @@ from formsArticle import ArticleForm
 from formsAdmin import LoginForm
 from flask import Flask,render_template,redirect,request,url_for,flash,Blueprint
 from flask_login import login_user,logout_user,login_required,current_user
-from main import db,login_manager
+from start import login_manager
 
 views_blueprint=Blueprint('views_blueprint',__name__)
 
+
 @views_blueprint.route('/',methods=['GET','POST'])
 def index():
-    news=Article.query.get_or_404(20161107154814)
-    #基础文件：首页新闻，数据库写死，目前ID：20161107154814
-    messages=Article.query.get_or_404(20161107154822)
-    #基础文件：首页边栏，数据库写死，目前ID：20161107154822
-    articles=Article.query.all()
-    articles.reverse()
-    return render_template('index.html',news=news,messages=messages,articles=articles)
+    article = Article()
+    article_list = article.search_all()
+    article_list.reverse() # 排序
+    return render_template('index.html',article_list=article_list)
 
 @views_blueprint.app_errorhandler(404)
 def page_not_found(e):
@@ -77,7 +75,7 @@ def delete_article(article_id):
 @views_blueprint.route('/show_articles')
 @login_required
 def show_articles():
-    articles=Article.query.all()
+    articles = Article.query.all()
     articles.reverse()
     return render_template('articles.html',articles=articles)
 
@@ -94,16 +92,17 @@ def update_info():
     return render_template('article.html',article=article)
 
 @views_blueprint.route('/article/<article_id>')
-def get_article(article_id):
-    article=Article.query.get_or_404(article_id)
-    return render_template('article.html',article=article)
+def get_article_by_id(article_id):
+    article = Article()
+    article.search_by_id(article_id)
+    return render_template('article.html', article=article)
 
-@views_blueprint.route('/articles/<tag_id>')
-def get_articles_by_tag(tag_id):
-    articles=Article.query.filter_by(tag_id=tag_id)
-    return render_template('articles.html',articles=articles)
+@views_blueprint.route('/article/<article_tag>')
+def get_article_list_by_tag(article_tag):
+    article = Article()
+    article_list = article.search_by_tag(article_tag)
+    return render_template('article_list.html', article_list=article_list)
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
-    message='中文测试命令'
-    return render_template('_test.html',message=message)
+    return render_template('bootstrap.html')
