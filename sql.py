@@ -17,8 +17,8 @@ class SQL(object):
                 id              TEXT    PRIMARY KEY     NOT NULL,
                 title           TEXT,
                 author          TEXT,
-                tag             INTEGER,
-                flag            INTEGER,
+                tag             TEXT,
+                flag            TEXT,
                 create_time     TEXT,
                 update_time     TEXT,
                 txt_markdown    TEXT,
@@ -29,10 +29,10 @@ class SQL(object):
         cmd_table_admins = '''
             CREATE TABLE IF NOT EXISTS admins
             (
-                id              TEXT    PRIMARY KEY     NOT NULL,
+                id              INTEGER     PRIMARY KEY     NOT NULL,
                 account         TEXT,
                 password        TEXT,
-                power           INTEGER
+                power           TEXT
             );
         '''
         try:
@@ -46,7 +46,7 @@ class SQL(object):
     def add_line(self, table_name, value_list):
         # 根据全属性值添加一行数据
         cmd_part = ['INSERT INTO']
-        cmd_part.append(str(self.table_name))
+        cmd_part.append(str(table_name))
         cmd_part.append('VALUES')
         cmd_part.append('(')
         cmd_part.append(','.join(map(str,value_list))) # map(str,list)的作用是对list中的所有对象作str()处理
@@ -54,6 +54,7 @@ class SQL(object):
         cmd_part.append(';')
         step = ' ' # 空格
         cmd_add_line = step.join(cmd_part)
+        print(cmd_add_line)
         try:
             self.cursor.execute(cmd_add_line)
             print('ADD LINE SUCESS.')
@@ -115,6 +116,7 @@ class SQL(object):
         cmd_part.append(';')
         step = ' '
         cmd_search_line_targetly = step.join(cmd_part)
+        print(cmd_search_line_targetly)
         try:
             self.cursor.execute(cmd_search_line_targetly)
             return self.cursor.fetchall()

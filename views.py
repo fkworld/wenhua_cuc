@@ -1,12 +1,12 @@
-from modelsAdmin import Admin
-from modelsArticle import Article
-from formsArticle import ArticleForm
-from formsAdmin import LoginForm
 from flask import Flask,render_template,redirect,request,url_for,flash,Blueprint
 from flask_login import login_user,logout_user,login_required,current_user
-from start import login_manager
 
-views_blueprint=Blueprint('views_blueprint',__name__)
+from start import login_manager
+from modelsAdmin import Admin
+from modelsArticle import Article
+from forms import ArticleForm,LoginForm
+
+views_blueprint = Blueprint('views_blueprint', __name__)
 
 
 @views_blueprint.route('/',methods=['GET','POST'])
@@ -20,18 +20,26 @@ def index():
 def page_not_found(e):
     return render_template('404.html'),404
 
-@views_blueprint.route('/login',methods=['GET','POST'])
+@views_blueprint.route('/login', methods=['GET','POST'])
 def login():
-    login=LoginForm()
-    if login.validate_on_submit():
-        answer=login.answer.data
-        if login.verify_answer(login.answer.data):
-            admin=Admin()
-            login_user(admin,login.remember_me.data)
-            flash('管理员账户登录成功！')
-            return redirect(request.args.get('next') or url_for('views_blueprint.index'))
-        flash('口令错误！')
-    return render_template('login.html',form=login)
+    login_form = LoginForm()
+    print('1')
+    print('1')
+    #if login_form.validate_on_submit():
+    print('2')
+    #account = login_form.account.data
+    #password = login_form.password.data
+    account = 'fy'
+    password = '123456'
+    admin = Admin()
+    print('3')
+    if admin.verify_login([account, password]):
+        login_user(admin, login_form.remember_me.data)
+        flash('管理员账户登录成功！')
+        print('success')
+        return redirect(request.args.get('next') or url_for('views_blueprint.index'))
+    flash('管理员账户登录失败，请检查账户密码是否正确！')
+    return render_template('login.html', form=login_form)
 
 @views_blueprint.route('/logout')
 @login_required

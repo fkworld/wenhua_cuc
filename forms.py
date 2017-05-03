@@ -1,0 +1,19 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField,PasswordField,BooleanField,SubmitField,SelectField,TextAreaField
+from wtforms.validators import Required,Length,EqualTo
+from modelsArticle import Article
+
+class ArticleForm(FlaskForm):
+    article = Article()
+    title = StringField('标题', validators=[Required(),Length(1,64)])
+    author = StringField('作者', validators=None)
+    tag = SelectField('分类', coerce=str, choices=article.tags)
+    flag = SelectField('权限', coerce=str, choices=article.flags)
+    txt_markdown = TextAreaField('主内容编辑区[HTML]') # markdown编辑器
+    submit = SubmitField('提交')
+
+class LoginForm(FlaskForm):
+    account = StringField('帐号', validators=[Required(), Length(1,64)])
+    password = PasswordField('密码', validators=[Required(), Length(1,64)])
+    remember_me = BooleanField('保持登录状态')
+    submit = SubmitField('登录')
