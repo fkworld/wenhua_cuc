@@ -19,6 +19,7 @@ def create_app():
     def load_user(admin_id):
         admin = Admin()
         admin.get_admin_object(admin_id)
+        return admin
     return app
 
 #app=create_app()

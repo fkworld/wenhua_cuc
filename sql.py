@@ -55,7 +55,7 @@ class SQL(object):
         cmd_part.append(')')
         step = ' ' # 空格
         cmd_add_line = step.join(cmd_part)
-        # print(cmd_add_line) # 用来测试输出的命令是否正确
+        print(cmd_add_line) # 用来测试输出的命令是否正确
         try:
             self.cursor.execute(cmd_add_line, value_list) # 采用占位符的方式执行语句
             print('ADD LINE SUCESS.')

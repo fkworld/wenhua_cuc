@@ -13,21 +13,18 @@ class Admin(UserMixin):
         self.table_name = 'admins'
         self.sql = SQL()
         self.id = None
-    
-    def get_id(self):
-        return self.id
 
     def get_admin_object(self, admin_id):
         target_list = ['id', admin_id]
         sql_result = self.sql.search_line_targetly(self.table_name, target_list)
-        if sql_result is None:
-            return None
-        else:
-            self.id = sql_result[0][0]
-            self.account = sql_result[0][1]
-            self.password = sql_result[0][2]
-            self.power = sql_result[0][4]
-            return self
+        try:
+            sql_tuple = sql_result.pop(0)
+            self.id = sql_tuple[0]
+            self.account = sql_tuple[1]
+            self.password = sql_tuple[2]
+            self.power = sql_tuple[3]
+        except:
+            print('NO SUCH ADMIN.')
 
     def add_new_admin(self, admin_list):
         # 在数据库中新加权限为LOW的admin
@@ -51,6 +48,7 @@ class Admin(UserMixin):
         target_list = ['account', login_list[0]]
         print(target_list)
         sql_result = self.sql.search_line_targetly(self.table_name, target_list)
+        print(sql_result)
         if sql_result is None:
             result_flag = False
         elif sql_result[0][2] == login_list[1]:

@@ -13,8 +13,13 @@ views_blueprint = Blueprint('views_blueprint', __name__)
 def index():
     article = Article()
     article_list = article.search_all()
-    article_list.reverse() # 排序
-    return render_template('index.html',article_list=article_list)
+    print(article_list)
+    for article in article_list:
+        print(article.flag)
+    # article_list.reverse() # 排序
+    print(current_user)
+    print(current_user.is_authenticated)
+    return render_template('index.html', article_list=article_list)
 
 @views_blueprint.app_errorhandler(404)
 def page_not_found(e):
@@ -23,15 +28,13 @@ def page_not_found(e):
 @views_blueprint.route('/login', methods=['GET','POST'])
 def login():
     login_form = LoginForm()
-    print('1')
     if login_form.validate_on_submit():
-        print('2')
         admin = Admin()
         login_list = [login_form.account.data, login_form.password.data]
         if admin.verify_login(login_list):
             login_user(admin, login_form.remember_me.data)
             flash('管理员账户登录成功！')
-            print('success')
+            print('Login sucess.')
             return redirect(request.args.get('next') or url_for('views_blueprint.index'))
         else:
             flash('管理员账户登录失败，请检查账户密码是否正确！')
