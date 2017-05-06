@@ -48,7 +48,10 @@ def new_article():
     article_form = ArticleForm()
     if article_form.validate_on_submit():
         article = Article()
-        article.new_article(article_form)
+        article.form_to_object(article_form)
+        print(article.id)
+        article.new_article()
+        print(article.id)
         flash('文章提交成功')
         return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
     return render_template('new_article.html',form=article_form)

@@ -32,13 +32,19 @@ class Article(object):
         self.reading_times = None
 
     def get_tag_name(self):
-        return self.tags[self.tag]
+        return self.tag
     
     def get_flag_name(self):
-        return self.flags[self.flag]
+        return self.flag
 
     def get_flag_grade(self):
         return self.flag is 'NOTICE'
+
+    def get_create_time(self):
+        return self.create_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    def get_update_time(self):
+        return self.update_time.strftime('%Y-%m-%d %H:%M:%S')
 
     def get_datetime(self):
         now_time = datetime.now()
@@ -58,14 +64,13 @@ class Article(object):
             self.sql.update_line_single(self.table_name, value_list, target_list)
             return 'BACKUP DELECT.'
 
-    def new_article(self, form):
-        # 添加一个新文档
-        print('test1')
+    def form_to_object(self, form):
+        # 从form中获取数据，保存到对象中去
         if self.create_time is None:
             self.create_time = self.get_datetime()
         self.update_time = self.get_datetime()
-        print('test2')
-        self.id = self.set_id()
+        print(self.create_time)
+        self.set_id()
         self.reading_times = 0 # 以后再做阅读次数的功能
 
         self.title = form.title.data
@@ -75,6 +80,7 @@ class Article(object):
         self.txt_markdown = form.txt_markdown.data
         self.txt_html = form.txt_markdown.data
 
+    def new_article(self):
         value_list = [self.id]
         value_list.append(self.title)
         value_list.append(self.author)
@@ -85,7 +91,7 @@ class Article(object):
         value_list.append(self.txt_markdown)
         value_list.append(self.txt_html)
         value_list.append(self.reading_times)
-
+        print(value_list)
         self.sql.add_line(self.table_name, value_list)
 
     def result_to_object(self, sql_result):
