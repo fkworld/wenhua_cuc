@@ -8,30 +8,28 @@ class Article(object):
     def __init__(self):
         self.table_name = 'articles'
         self.sql = SQL()
-        self.tags = {
-            'NOTICE':'通知',
-            'SHOW':'展示',
-            'EXP':'经验',
-            'LOG':'日志',
-        }
-        self.flags = {
-            'ONLINE':'在线发布文档',
-            'OFFLINE':'离线发布文档',
-            'SYSTEM':'系统文档',
-            'BACKUP':'备份文档',
-        }
-        '''
-        id
-        title
-        author
-        tag
-        flag
-        create_time
-        update_time
-        txt_markdown
-        txt_html
-        reading_times
-        '''
+        self.tags = [
+            ('NOTICE','通知'),
+            ('SHOW','展示'),
+            ('EXP','经验'),
+            ('LOG','日志')
+        ]
+        self.flags = [
+            ('ONLINE','在线发布文档'),
+            ('OFFLINE','离线发布文档'),
+            ('SYSTEM','系统文档'),
+            ('BACKUP','备份文档')
+        ]
+        self.id = None
+        self.title = None
+        self.author = None
+        self.tag = None
+        self.flag = None
+        self.create_time = None
+        self.update_time = None
+        self.txt_markdown = None
+        self.txt_html = None
+        self.reading_times = None
 
     def get_tag_name(self):
         return self.tags[self.tag]
@@ -60,11 +58,13 @@ class Article(object):
             self.sql.update_line_single(self.table_name, value_list, target_list)
             return 'BACKUP DELECT.'
 
-    def add_in_db(self, form):
-        # 添加至数据库
+    def new_article(self, form):
+        # 添加一个新文档
+        print('test1')
         if self.create_time is None:
-            self.create_time = self.get_datetime().strftime('%Y-%m-%d %H:%M:%S')
-        self.update_time = self.get_datetime.strftime('%Y-%m-%d %H:%M:%S')
+            self.create_time = self.get_datetime()
+        self.update_time = self.get_datetime()
+        print('test2')
         self.id = self.set_id()
         self.reading_times = 0 # 以后再做阅读次数的功能
 
@@ -73,7 +73,7 @@ class Article(object):
         self.tag = form.tag.data
         self.flag = form.flag.data
         self.txt_markdown = form.txt_markdown.data
-        self.txt_html = form.txt_html.data
+        self.txt_html = form.txt_markdown.data
 
         value_list = [self.id]
         value_list.append(self.title)

@@ -1,0 +1,36 @@
+<div>
+    <form method='POST' class="form">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label>{{ form.title.label }}</label>
+            {{ form.title() }}
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-4">
+                {{ form.tag.label }}
+                {{ form.tag() }}
+                </div>
+                <div class="col-sm-4">
+                {{ form.flag.label }}
+                {{ form.flag() }}
+                </div>
+                <div class="col-sm-4">
+                {{ form.author.label }}
+                {{ form.author() }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label>{{ form.txt_markdown.label }}</label>
+                    {{ form.txt_markdown(rows=30) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-default") }}
+        </div>
+    </form>
+</div>

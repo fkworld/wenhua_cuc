@@ -7,9 +7,9 @@ class ArticleForm(FlaskForm):
     article = Article()
     title = StringField('标题', validators=[Required(),Length(1,64)])
     author = StringField('作者', validators=None)
-    tag = SelectField('分类', coerce=str, choices=article.tags)
-    flag = SelectField('权限', coerce=str, choices=article.flags)
-    txt_markdown = TextAreaField('主内容编辑区[HTML]') # markdown编辑器
+    tag = SelectField('分类', choices=article.tags)
+    flag = SelectField('权限', choices=article.flags)
+    txt_markdown = TextAreaField('markdown') # markdown编辑器
     submit = SubmitField('提交')
 
 class LoginForm(FlaskForm):

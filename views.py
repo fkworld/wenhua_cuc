@@ -13,12 +13,7 @@ views_blueprint = Blueprint('views_blueprint', __name__)
 def index():
     article = Article()
     article_list = article.search_all()
-    print(article_list)
-    for article in article_list:
-        print(article.flag)
-    # article_list.reverse() # 排序
-    print(current_user)
-    print(current_user.is_authenticated)
+    article_list.reverse() # 排序
     return render_template('index.html', article_list=article_list)
 
 @views_blueprint.app_errorhandler(404)
@@ -50,14 +45,13 @@ def logout():
 @views_blueprint.route('/new_article',methods=['GET','POST'])
 @login_required
 def new_article():
-    form=ArticleForm()
-    if form.validate_on_submit():
-        article=Article()
-        article.set_all_by_form_6_values(form)
-        article.update_db()
+    article_form = ArticleForm()
+    if article_form.validate_on_submit():
+        article = Article()
+        article.new_article(article_form)
         flash('文章提交成功')
-        return redirect(url_for('views_blueprint.get_article',article_id=article.id))
-    return render_template('new_article.html',form=form)
+        return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
+    return render_template('new_article.html',form=article_form)
 
 @views_blueprint.route('/edit_article/<article_id>',methods=['GET','POST'])
 @login_required
