@@ -2,6 +2,9 @@ from datetime import datetime
 
 from sql import SQL
 
+time_format = '%Y-%m-%d %H:%M:%S'
+id_fomat = '%Y%m%d%H%M%S'
+
 class Article(object):
 
 
@@ -41,10 +44,10 @@ class Article(object):
         return self.flag is 'NOTICE'
 
     def get_create_time(self):
-        return self.create_time.strftime('%Y-%m-%d %H:%M:%S')
+        return self.create_time
 
     def get_update_time(self):
-        return self.update_time.strftime('%Y-%m-%d %H:%M:%S')
+        return self.update_time
 
     def get_datetime(self):
         now_time = datetime.now()
@@ -52,7 +55,8 @@ class Article(object):
 
     def set_id(self):
         if self.id is None:
-            self.id = self.create_time.strftime('%Y%m%d%H%M%S')
+            create_time_object = datetime.strptime(self.create_time, time_format)
+            self.id = create_time_object.strftime(id_fomat)
 
     def delete(self):
         target_list = ['id', self.id]
@@ -67,8 +71,8 @@ class Article(object):
     def form_to_object(self, form):
         # 从form中获取数据，保存到对象中去
         if self.create_time is None:
-            self.create_time = self.get_datetime()
-        self.update_time = self.get_datetime()
+            self.create_time = self.get_datetime().strftime(time_format)
+        self.update_time = self.get_datetime().strftime(time_format)
         print(self.create_time)
         self.set_id()
         self.reading_times = 0 # 以后再做阅读次数的功能
