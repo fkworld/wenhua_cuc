@@ -4,13 +4,14 @@
 <span class="glyphicon glyphicon-home"></span>
 <a href="/">网站</a>
 <span class="glyphicon glyphicon-chevron-right"></span>
-<a href="javascript:void(0)" class="disable">管理员登录</a>
+<a href="javascript:void(0)" class="disable">ADMIN LOGIN</a>
 {%endblock%}
 
 {%block page_left_body%}
-<h2>管理员登录</h2>
+<h2>ADMIN LOGIN</h2>
 <hr>
-<form method="POST">
+<form method='POST'>
+    {{ form.hidden_tag() }} <!-- 此项与CSRF功能有关，不可省略 -->
     {{ form.account.label }}
     {{ form.account() }}
     {{ form.password.label }}

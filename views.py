@@ -24,21 +24,17 @@ def page_not_found(e):
 def login():
     login_form = LoginForm()
     print('1')
-    print('1')
-    #if login_form.validate_on_submit():
-    print('2')
-    #account = login_form.account.data
-    #password = login_form.password.data
-    account = 'fy'
-    password = '123456'
-    admin = Admin()
-    print('3')
-    if admin.verify_login([account, password]):
-        login_user(admin, login_form.remember_me.data)
-        flash('管理员账户登录成功！')
-        print('success')
-        return redirect(request.args.get('next') or url_for('views_blueprint.index'))
-    flash('管理员账户登录失败，请检查账户密码是否正确！')
+    if login_form.validate_on_submit():
+        print('2')
+        admin = Admin()
+        login_list = [login_form.account.data, login_form.password.data]
+        if admin.verify_login(login_list):
+            login_user(admin, login_form.remember_me.data)
+            flash('管理员账户登录成功！')
+            print('success')
+            return redirect(request.args.get('next') or url_for('views_blueprint.index'))
+        else:
+            flash('管理员账户登录失败，请检查账户密码是否正确！')
     return render_template('login.html', form=login_form)
 
 @views_blueprint.route('/logout')

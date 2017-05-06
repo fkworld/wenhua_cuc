@@ -53,7 +53,7 @@ class Article(object):
     def delete(self):
         target_list = ['id', self.id]
         if self.flag is 'BACKUP':
-            sql.delete_line(self.table_name, target_list)
+            sql.delete_line_targetly(self.table_name, target_list)
             return 'CLEAR DELETE.'
         else:
             value_list = ['flag', 'BACKUP']

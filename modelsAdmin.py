@@ -3,10 +3,17 @@ from flask_login import UserMixin
 from sql import SQL
 
 class Admin(UserMixin):
+    '''
+    id
+    account
+    password
+    power
+    '''
     def __init__(self):
         self.table_name = 'admins'
         self.sql = SQL()
-
+        self.id = None
+    
     def get_id(self):
         return self.id
 
@@ -36,6 +43,9 @@ class Admin(UserMixin):
 
         self.sql.add_line(self.table_name, value_list)
 
+    def delect_low_admin(self, admin_id):
+        pass
+
     def verify_login(self, login_list):
         # 验证登录
         target_list = ['account', login_list[0]]
@@ -43,7 +53,7 @@ class Admin(UserMixin):
         sql_result = self.sql.search_line_targetly(self.table_name, target_list)
         if sql_result is None:
             result_flag = False
-        elif sql_result[0][2] == login_list[2]:
+        elif sql_result[0][2] == login_list[1]:
             result_flag = True
         else:
             result_flag = False
