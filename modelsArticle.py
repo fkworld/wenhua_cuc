@@ -95,8 +95,20 @@ class Article(object):
         value_list.append(self.txt_markdown)
         value_list.append(self.txt_html)
         value_list.append(self.reading_times)
-        print(value_list)
         self.sql.add_line(self.table_name, value_list)
+
+    def update_article(self):
+        value_list = [self.title]
+        value_list.append(self.author)
+        value_list.append(self.tag)
+        value_list.append(self.flag)
+        value_list.append(self.update_time)
+        value_list.append(self.txt_markdown)
+        value_list.append(self.txt_html)
+        value_list.append(self.reading_times)
+        column_list = ['title', 'author', 'tag', 'flag', 'update_time', 'txt_markdown', 'txt_html', 'reading_times']
+        target_vector = ['id', self.id]
+        self.sql.update_line_part(self.table_name, column_list, value_list, target_vector)
 
     def result_to_object(self, sql_result):
         # sql_result：一行数据是一个元组，整个数据是一个列表；[(-),...]
@@ -124,14 +136,14 @@ class Article(object):
 
     def search_by_id(self, id):
         # 根据文章id搜索数据库，返回本article对象
-        target_list = ['id', id]
-        result = self.sql.search_line_targetly(self.table_name, target_list)
+        target_vector = ['id', id]
+        result = self.sql.search_line_targetly(self.table_name, target_vector)
         self.result_to_object(result)
     
     def search_by_tag(self, tag):
         # 根据文章tag搜索数据库，返回一个object_list
-        target_list = ['tag', tag]
-        sql_result = self.sql.search_line_targetly(self.table_name, target_list)
+        target_vector = ['tag', tag]
+        sql_result = self.sql.search_line_targetly(self.table_name, target_vector)
         return self.result_to_object_list(sql_result)
     
     def search_by_key_word(self, key_word):

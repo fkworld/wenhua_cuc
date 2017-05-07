@@ -1,5 +1,9 @@
 import sqlite3
 
+# Data structure:
+# some_vector:[column_name, value]
+# some_list:[value, value, ...]
+
 class SQL(object):
 
 
@@ -61,41 +65,62 @@ class SQL(object):
             print('ADD LINE SUCESS.')
         except:
             print('ADD LINE FAILED.')
-
-    def update_line_single(self, table_name, value_list, target_list):
-        # 根据目标更新一行数据中的一项，多项更新还没有想好怎么写
+        
+    def update_line_part(self, table_name, column_list, value_list, target_vector):
+        # 根据部分属性更新一行数据
         cmd_part = ['UPDATE']
         cmd_part.append(str(table_name))
         cmd_part.append('SET')
-        cmd_part.append(str(value_list.pop(0)))
-        cmd_part.append('=')
-        cmd_part.append('?')
+        for i in range(len(column_list)):
+            cmd_part.append(str(column_list.pop(0)))
+            cmd_part.append('=')
+            cmd_part.append('?')
         cmd_part.append('WHERE')
-        cmd_part.append(str(target_list.pop(0)))
+        cmd_part.append(str(target_vector.pop(0)))
         cmd_part.append('=')
         cmd_part.append('?')
         step = ' '
         cmd_update_line = step.join(cmd_part)
-        print(cmd_update_line)
         try:
-            value_list.extend(target_list) # 合并2个列表剩余的部分
+            value_list.extend(target_vector) # 合并2个列表剩余的部分
             self.cursor.execute(cmd_update_line, value_list) # 同样采用占位符的方式来防止sql注入
-            print('UPDATE LINE SUCESS.')
+            print('UPDATE LINE PART SUCESS.')
         except:
-            print('UPDATE LINE FAILED.')
+            print('UPDATE LINE PART FAILED.')
 
-    def delete_line_targetly(self, table_name, target_list):
+    def update_line_single(self, table_name, value_vector, target_vector):
+        # 根据目标更新一行数据中的一项，多项更新还没有想好怎么写
+        cmd_part = ['UPDATE']
+        cmd_part.append(str(table_name))
+        cmd_part.append('SET')
+        cmd_part.append(str(value_vector.pop(0)))
+        cmd_part.append('=')
+        cmd_part.append('?')
+        cmd_part.append('WHERE')
+        cmd_part.append(str(target_vector.pop(0)))
+        cmd_part.append('=')
+        cmd_part.append('?')
+        step = ' '
+        cmd_update_line = step.join(cmd_part)
+        try:
+            value_vector.extend(target_vector) # 合并2个列表剩余的部分
+            self.cursor.execute(cmd_update_line, value_vector) # 同样采用占位符的方式来防止sql注入
+            print('UPDATE LINE SINGLE SUCESS.')
+        except:
+            print('UPDATE LINE SINGLE FAILED.')
+
+    def delete_line_targetly(self, table_name, target_vector):
         # 根据目标删除某一行的数据
         cmd_part = ['DELETE FROM']
         cmd_part.append(str(table_name))
         cmd_part.append('WHERE')
-        cmd_part.append(str(target_list.pop(0)))
+        cmd_part.append(str(target_vector.pop(0)))
         cmd_part.append('=')
         cmd_part.append('?')
         step = ' '
         cmd_delete_line = step.join(cmd_part)
         try:
-            self.cursor.execute(cmd_delete_line, target_list)
+            self.cursor.execute(cmd_delete_line, target_vector)
             print('DELETE LINE SUCESS.')
         except:
             print('DELETE LINE FAILED.')
@@ -115,21 +140,21 @@ class SQL(object):
         except:
             print('SEARCH LINE ALL FAILED.')
         
-    def search_line_targetly(self, table_name, target_list):
+    def search_line_targetly(self, table_name, target_vector):
         # 根据目标搜索某一行数据
         cmd_part = ['SELECT']
         cmd_part.append('*')
         cmd_part.append('FROM')
         cmd_part.append(str(table_name))
         cmd_part.append('WHERE')
-        cmd_part.append(str(target_list.pop(0)))
+        cmd_part.append(str(target_vector.pop(0)))
         cmd_part.append('=')
         cmd_part.append('?')
         step = ' '
         cmd_search_line_targetly = step.join(cmd_part)
         # print(cmd_search_line_targetly)
         try:
-            self.cursor.execute(cmd_search_line_targetly, target_list)
+            self.cursor.execute(cmd_search_line_targetly, target_vector)
             print('SEARCH LINE TARGETLY SUCESS.')
             return self.cursor.fetchall()
         except:

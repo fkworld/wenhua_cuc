@@ -49,25 +49,25 @@ def new_article():
     if article_form.validate_on_submit():
         article = Article()
         article.form_to_object(article_form)
-        print(article.id)
         article.new_article()
-        print(article.id)
         flash('文章提交成功')
         return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
-    return render_template('new_article.html',form=article_form)
+    return render_template('new_article.html', form=article_form)
 
 @views_blueprint.route('/edit_article/<article_id>',methods=['GET','POST'])
 @login_required
 def edit_article(article_id):
-    article=Article.query.get_or_404(article_id)
-    form=ArticleForm()
-    if form.validate_on_submit():
-        article.set_all_by_form_6_values(form)
-        article.update_db()
-        flash('文章已更新成功')
-        return redirect(url_for('views_blueprint.get_article',article_id=article.id))
-    form.set_form_data(article)
-    return render_template('edit_article.html',form=form)
+    article = Article()
+    article.search_by_id(article_id)
+    article_form = ArticleForm()
+    article_form.object_to_data(article)
+    if article_form.validate_on_submit():
+        article = Article()
+        article.form_to_object(article_form)
+        article.new_article()
+        flash('文章更新成功')
+        return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
+    return render_template('edit_article.html', form=article_form, page_title='文档编辑')
 
 @views_blueprint.route('/delete_article/<article_id>',methods=['GET','POST'])
 def delete_article(article_id):

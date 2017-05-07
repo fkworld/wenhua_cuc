@@ -12,6 +12,13 @@ class ArticleForm(FlaskForm):
     txt_markdown = TextAreaField('markdown') # markdown编辑器
     submit = SubmitField('提交')
 
+    def object_to_data(self,article):
+        self.title.data = article.title
+        self.author.data = article.author
+        self.tag = article.tag
+        self.flag = article.flag
+        self.txt_markdown = article.txt_markdown
+
 class LoginForm(FlaskForm):
     account = StringField('帐号', validators=[Required(), Length(1,64)])
     password = PasswordField('密码', validators=[Required(), Length(1,64)])
