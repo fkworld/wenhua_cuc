@@ -3,16 +3,15 @@ from flask_login import UserMixin
 from sql import SQL
 
 class Admin(UserMixin):
-    '''
-    id
-    account
-    password
-    power
-    '''
+
+    
     def __init__(self):
         self.table_name = 'admins'
         self.sql = SQL()
         self.id = None
+        self.account = None
+        self.password = None
+        self.power = None
 
     def get_admin_object(self, admin_id):
         target_list = ['id', admin_id]

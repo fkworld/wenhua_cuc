@@ -138,6 +138,7 @@ class Article(object):
         # 根据文章id搜索数据库，返回本article对象
         target_vector = ['id', id]
         result = self.sql.search_line_targetly(self.table_name, target_vector)
+        print(result)
         self.result_to_object(result)
     
     def search_by_tag(self, tag):

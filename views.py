@@ -86,15 +86,15 @@ def show_article_list():
 
 @views_blueprint.route('/article/website_info')
 def website_info():
-    article=Article.query.get_or_404(20161107154545)
-    #基础文件：网站说明，数据库写死，目前ID：20161107154545
-    return render_template('article.html',article=article)
+    article = Article()
+    article.search_by_id(1)
+    return render_template('article.html', article=article)
 
 @views_blueprint.route('/article/update_info')
 def update_info():
-    article=Article.query.get_or_404(20161107154806)
-    #基础文件：更新公告，数据库写死，目前ID：20161107154806
-    return render_template('article.html',article=article)
+    article = Article()
+    article.search_by_id(2)
+    return render_template('article.html', article=article)
 
 @views_blueprint.route('/article/<article_id>')
 def get_article_by_id(article_id):
@@ -102,11 +102,11 @@ def get_article_by_id(article_id):
     article.search_by_id(article_id)
     return render_template('article.html', article=article)
 
-@views_blueprint.route('/article/<article_tag>')
+@views_blueprint.route('/article_list/<article_tag>')
 def get_article_list_by_tag(article_tag):
     article = Article()
     article_list = article.search_by_tag(article_tag)
-    return render_template('article_list.html', article_list=article_list)
+    return render_template('article_list.html', article_list=article_list, page_title=article_tag)
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():

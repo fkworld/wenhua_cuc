@@ -156,7 +156,6 @@ class SQL(object):
         cmd_part.append('?')
         step = ' '
         cmd_search_line_targetly = step.join(cmd_part)
-        # print(cmd_search_line_targetly)
         try:
             self.cursor.execute(cmd_search_line_targetly, target_vector)
             print('SEARCH LINE TARGETLY SUCESS.')
