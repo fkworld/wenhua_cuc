@@ -72,6 +72,8 @@ class SQL(object):
         cmd_part.append(str(table_name))
         cmd_part.append('SET')
         for i in range(len(column_list)):
+            if i != 0:
+                cmd_part.append(',')
             cmd_part.append(str(column_list.pop(0)))
             cmd_part.append('=')
             cmd_part.append('?')
@@ -111,7 +113,8 @@ class SQL(object):
 
     def delete_line_targetly(self, table_name, target_vector):
         # 根据目标删除某一行的数据
-        cmd_part = ['DELETE FROM']
+        cmd_part = ['DELETE']
+        cmd_part.append('FROM')
         cmd_part.append(str(table_name))
         cmd_part.append('WHERE')
         cmd_part.append(str(target_vector.pop(0)))
@@ -119,6 +122,7 @@ class SQL(object):
         cmd_part.append('?')
         step = ' '
         cmd_delete_line = step.join(cmd_part)
+        print(cmd_delete_line)
         try:
             self.cursor.execute(cmd_delete_line, target_vector)
             print('DELETE LINE SUCESS.')

@@ -60,27 +60,29 @@ def edit_article(article_id):
     article = Article()
     article.search_by_id(article_id)
     article_form = ArticleForm()
-    article_form.object_to_form(article)
     if article_form.validate_on_submit():
         article.form_to_object(article_form)
         article.update_article()
         flash('文章更新成功')
         return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
+    article_form.object_to_form(article) # ??此行语句位置对功能实现有重大影响
     return render_template('edit_article.html', form=article_form, page_title='编辑文档')
 
 @views_blueprint.route('/delete_article/<article_id>',methods=['GET','POST'])
-def delete_article(article_id):
-    article=Article.query.get_or_404(article_id)
-    message=article.delete()
-    flash(message)
-    return redirect(url_for('views_blueprint.show_articles'))
-
-@views_blueprint.route('/show_articles')
 @login_required
-def show_articles():
-    articles = Article.query.all()
-    articles.reverse()
-    return render_template('articles.html',articles=articles)
+def delete_article(article_id):
+    article = Article()
+    article.search_by_id(article_id)
+    message = article.delete_article()
+    flash(message)
+    return redirect(url_for('views_blueprint.show_article_list'))
+
+@views_blueprint.route('/show_article_list')
+@login_required
+def show_article_list():
+    article = Article()
+    article_list = article.search_all()
+    return render_template('article_list.html', article_list=article_list, page_title='文档列表')
 
 @views_blueprint.route('/article/website_info')
 def website_info():

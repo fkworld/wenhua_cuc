@@ -58,16 +58,6 @@ class Article(object):
             create_time_object = datetime.strptime(self.create_time, time_format)
             self.id = create_time_object.strftime(id_fomat)
 
-    def delete(self):
-        target_list = ['id', self.id]
-        if self.flag is 'BACKUP':
-            sql.delete_line_targetly(self.table_name, target_list)
-            return 'CLEAR DELETE.'
-        else:
-            value_list = ['flag', 'BACKUP']
-            self.sql.update_line_single(self.table_name, value_list, target_list)
-            return 'BACKUP DELECT.'
-
     def form_to_object(self, form):
         # 从form中获取数据，保存到对象中去
         if self.create_time is None:
@@ -109,6 +99,16 @@ class Article(object):
         column_list = ['title', 'author', 'tag', 'flag', 'update_time', 'txt_markdown', 'txt_html', 'reading_times']
         target_vector = ['id', self.id]
         self.sql.update_line_part(self.table_name, column_list, value_list, target_vector)
+
+    def delete_article(self):
+        target_vector = ['id', self.id]
+        if self.flag == 'BACKUP':
+            self.sql.delete_line_targetly(self.table_name, target_vector)
+            return 'CLEAR DELETE.'
+        else:
+            value_vector = ['flag', 'BACKUP']
+            self.sql.update_line_single(self.table_name, value_vector, target_vector)
+            return 'BACKUP DELECT.'
 
     def result_to_object(self, sql_result):
         # sql_result：一行数据是一个元组，整个数据是一个列表；[(-),...]
