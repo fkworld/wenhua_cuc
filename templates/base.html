@@ -22,12 +22,18 @@
             {% else %}
             <a class="btn btn-danger" href="/login"></a>
             {% endif %}
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search">
-                <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                </span>
-            </div>
+            <form id='search' method="POST">
+                <div class="input-group">
+                    <input id="key_word" type="text" class="form-control" placeholder="Search">
+                    <script>
+                        // 通过script获取写入的参数 by飞哥
+                        var key_word=document.getElementById('key_word').nodeValue
+                    </script>
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" type="submit" href="{{ url_for('views_blueprint.search', key_word=key_word) }}"><span class="glyphicon glyphicon-search"></span></a>
+                    </span>
+                </div>
+            </form>
         </div>
     </form>
 </nav>
@@ -65,7 +71,7 @@
             {% block page_right_footer %}
             <a class="label label-info" href="/article/website_info">网站说明</a>
             <a class="label label-info" href="/article/update_info">更新公告</a>
-            <a class="label label-info" href="http://git.cucplus.com/fengyong/wenhua-cuc">GITLAB</a>
+            <a class="label label-info" href="http://git.cucplus.com/fengyong/wenhua_cuc">GITLAB</a>
             {% endblock %}
         </div>
     </div>

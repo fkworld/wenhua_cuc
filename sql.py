@@ -162,3 +162,24 @@ class SQL(object):
             return self.cursor.fetchall()
         except:
             print('SEARCH LINE TARGETLY FAILED.')
+    
+    def search_full_text(self, table_name, column_list, key_word):
+        # 根据关键字和目标列进行全文搜索
+        # SELECT * FROM table_name WHERE column_list MATCH 'software'
+        cmd_part = ['SELECT']
+        cmd_part.append('*')
+        cmd_part.append('FROM')
+        cmd_part.append(str(table_name))
+        cmd_part.append('WHERE')
+        cmd_part.append(str(column_list.pop(0)))
+        cmd_part.append('LIKE')
+        cmd_part.append('\'%' + str(key_word) + '%\'')
+        step = ' '
+        cmd_search_full_text = step.join(cmd_part)
+        print(cmd_search_full_text)
+        try:
+            self.cursor.execute(cmd_search_full_text)
+            print('SEARCH FULL TEXT SUCESS.')
+            return self.cursor.fetchall()
+        except:
+            print('SEARCH FULL TEXT FAILED.')

@@ -13,18 +13,21 @@
 <div id="article_title">
     <h2>{{ article.title }}</h2>
 </div>
-<div id="article_info">
-    <a class="label label-default"><span class="glyphicon glyphicon-tag"></span>{{ article.get_tag_name() }}</a>
-    <a class="label label-default"><span class="glyphicon glyphicon-time"></span>{{ article.get_create_time() }}</a>
-    <a class="label label-default"><span class="glyphicon glyphicon-time"></span>{{ article.get_update_time() }}</a>
-    <a class="label label-default"><span class="glyphicon glyphicon-user"></span>{{ article.author }}</a>
-    {% if current_user.is_authenticated %}
-    <a class="label label-default disabled"><span class="glyphicon glyphicon-edit"></span>{{ article.get_flag_name() }}</a>
-    <a href="{{url_for('views_blueprint.edit_article',article_id=article.id)}}" class="label label-info"><span class="glyphicon glyphicon-pencil"></span>修改</a>
-    <a href="{{url_for('views_blueprint.delete_article',article_id=article.id)}}" class="label label-danger"><span class="glyphicon glyphicon-trash"></span>删除</a>
-    {% endif %}
+<div id="article_info" class="col-sm-12">
+    <div class="row">
+        <span class="glyphicon glyphicon-tag"></span><b>TAG:</b>{{ article.get_tag_name() }}
+        <span class="glyphicon glyphicon-time"></span><b>CREATE TIME:</b>{{ article.get_create_time() }}
+        <span class="glyphicon glyphicon-time"></span><b>UPDATE TIME:</b>{{ article.get_update_time() }}
+        <span class="glyphicon glyphicon-user"></span><b>AUTHOR:</b>{{ article.author }}
+    </div>
+    <div class="row">
+        {% if current_user.is_authenticated %}
+        <span class="glyphicon glyphicon-edit"></span><b>FLAG:</b>{{ article.get_flag_name() }}
+        <a href="{{ url_for('views_blueprint.edit_article',article_id=article.id) }}"><span class="glyphicon glyphicon-pencil"></span>EDIT</a>
+        <a href="{{ url_for('views_blueprint.delete_article',article_id=article.id) }}"><span class="glyphicon glyphicon-trash"></span>DELETE</a>
+        {% endif %}
+    </div>
 </div>
-<hr>
 <div id="article_context">
     {{ article.txt_html | safe }}
 </div>

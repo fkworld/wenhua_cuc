@@ -149,7 +149,9 @@ class Article(object):
     
     def search_by_key_word(self, key_word):
         # 根据关键字进行全文搜索，以后再做的功能
-        pass
+        column_list = ['txt_html'] # 目前仅支持在此列内进行全文搜索
+        sql_result = self.sql.search_full_text(self.table_name, column_list, key_word )
+        return self.result_to_object_list(sql_result)
 
     def search_all(self):
         # 搜索全部文章，返回一个object_list

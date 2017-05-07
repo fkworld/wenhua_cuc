@@ -4,7 +4,7 @@ from flask_login import login_user,logout_user,login_required,current_user
 from start import login_manager
 from modelsAdmin import Admin
 from modelsArticle import Article
-from forms import ArticleForm,LoginForm
+from forms import ArticleForm,LoginForm,SearchForm
 
 views_blueprint = Blueprint('views_blueprint', __name__)
 
@@ -107,6 +107,12 @@ def get_article_list_by_tag(article_tag):
     article = Article()
     article_list = article.search_by_tag(article_tag)
     return render_template('article_list.html', article_list=article_list, page_title=article_tag)
+
+@views_blueprint.route('/search/<key_word>', methods=['GET','POST'])
+def search(key_word):
+    article = Article()
+    article_list = article.search_by_key_word(key_word)
+    return render_template('article_list.html', article_list=article_list, page_title='SEARCH:'+key_word)
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():

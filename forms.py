@@ -51,3 +51,15 @@ class LoginForm(FlaskForm):
 
     def get_submit_label(self):
         return 'LOGIN'
+
+class SearchForm(FlaskForm):
+    key_word = StringField(validators=[DataRequired()])
+    search = SubmitField()
+
+    def get_search_label(self):
+        return 'SEARCH'
+
+    def listen(self):
+        # 监听点击搜索的行为
+        if self.validate_on_submit(): # 点击了搜索按钮
+            self.key_word.data
