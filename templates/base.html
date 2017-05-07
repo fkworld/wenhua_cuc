@@ -1,6 +1,6 @@
-{%extends "bootstrap/base.html"%}
+{% extends "bootstrap.html" %}
 
-{%block navbar%}
+{% block navbar %}
 <nav class="container">
     <h1><strong>国家大学生文化素质教育基地</strong> <small>中国传媒大学站</small></h1>
     <form class="form-inline">
@@ -10,60 +10,60 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
             </div>
             <a type="submit" class="btn btn-info">搜索</a>
-            {%if current_user.is_authenticated%}
+            {% if current_user.is_authenticated %} <!-- 注意这里是属性而不是方法，天坑 -->
             <div class="btn-group">
                 <a type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"></a>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="/new_article">新建文档</a></li>
-                    <li><a href="/show_articles">文档列表</a></li>
+                    <li><a href="/show_article_list">文档列表</a></li>
                     <li class="divider"></li>
                     <li><a href="/logout">退出</a></li>
                 </ul>
             </div>
-            {%else%}
+            {% else %}
             <a class="btn btn-danger" href="/login"></a>
-            {%endif%}
-            <a class="btn btn-primary" href="/articles/1">通知</a>
-            <a class="btn btn-primary" href="/articles/2">展示</a>
-            <a class="btn btn-primary" href="/articles/3">经验</a>
-            <a class="btn btn-primary" href="/articles/4">说明</a>
+            {% endif %}
+            <a class="btn btn-primary" href="/article_list/NOTICE">通知</a>
+            <a class="btn btn-primary" href="/article_list/SHOW">展示</a>
+            <a class="btn btn-primary" href="/article_list/EXP">经验</a>
+            <a class="btn btn-primary" href="/article_list/LOG">日志</a>
         </div>
     </form>
 </nav>
 <hr>
-{%endblock%}
+{% endblock %}
 
-{%block content%}
+{% block content %}
 <div class="container">
-    {%for message in get_flashed_messages()%}
+    {% for message in get_flashed_messages() %}
     <div class="alert alert-warning alert-dismissible" role="alert">
         <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-        <strong>通知：</strong>{{message}}
+        <strong>notice: </strong>{{ message }}
     </div>
-    {%endfor%}
+    {% endfor %}
     <div class="row">
         <div id="page_left" class="col-sm-8">
-            {%block page_left_head%}
-            {%endblock%}
+            {% block page_left_head %}
+            {% endblock %}
             <hr>
-            {%block page_left_body%}
-            {%endblock%}
+            {% block page_left_body %}
+            {% endblock %}
             <hr>
-            {%block page_left_footer%}
-            {%endblock%}
+            {% block page_left_footer %}
+            {% endblock %}
         </div>
         <div id="page_right" class="col-sm-4">
-            {%block page_right_head%}
-            {%endblock%}
+            {% block page_right_head %}
+            {% endblock %}
             <hr>
-            {%block page_right_body%}
-            {%endblock%}
+            {% block page_right_body %}
+            {% endblock %}
             <hr>
-            {%block page_right_footer%}
+            {% block page_right_footer %}
             <a class="label label-info" href="/article/website_info">网站说明</a>
             <a class="label label-info" href="/article/update_info">更新公告</a>
-            <a class="label label-info" href="http://git.cucplus.com/fengyong/wenhua-cuc">GitLab地址</a>
-            {%endblock%}
+            <a class="label label-info" href="http://git.cucplus.com/fengyong/wenhua-cuc">GITLAB</a>
+            {% endblock %}
         </div>
     </div>
 <div>
@@ -72,4 +72,4 @@
 <br>
 <br>
 <br>
-{%endblock%}
+{% endblock %}

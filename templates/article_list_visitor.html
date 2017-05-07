@@ -1,0 +1,9 @@
+<div id="article">
+    {% for article in article_list %}
+    {% if article.flag is 'ONLINE' %}<!-- 多重验证 -->
+    <span class="glyphicon glyphicon-file"></span>
+    <a href="{{ url_for('views_blueprint.get_article_by_id',article_id=article.id) }}">{{ article.title }}</a>
+    <br>
+    {% endif %}
+    {% endfor %}
+</div>
