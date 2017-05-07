@@ -4,20 +4,45 @@
 <span class="glyphicon glyphicon-home"></span>
 <a href="/">WEBSITE</a>
 <span class="glyphicon glyphicon-chevron-right"></span>
-<a href="javascript:void(0)" class="disable">ADMIN LOGIN</a>
+<a href="javascript:void(0)" class="disable">{{ page_title }}</a>
 {% endblock %}
 
 {% block page_left_body %}
-<h2>ADMIN LOGIN</h2>
-<hr>
+<div class="page-header">
+    <h2>{{ page_title }}</h2>
+</div>
 <form method='POST'>
-    {{ form.hidden_tag() }} <!-- 此项与CSRF功能有关，不可省略 -->
-    {{ form.account.label }}
-    {{ form.account() }}
-    {{ form.password.label }}
-    {{ form.password() }}
-    {{ form.remember_me() }}
-    {{ form.remember_me.label }}
-    {{ form.submit() }}
+{{ form.hidden_tag() }} <!-- 此项与CSRF功能有关，不可省略 -->
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon">{{ form.get_account_label() }}</span>
+                {{ form.account(type="text",class="form-control") }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon">{{ form.get_password_label() }}</span>
+                {{ form.password(class="form-control") }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon">{{ form.remember_me() }}</span>
+                <span class="input-group-addon">{{ form.get_remember_me_label() }}</span>
+                <span class="input-group-btn">{{ form.submit(class="form-control btn btn-sucess",value=form.get_submit_label()) }}</span>
+            </div>
+        </div>
+    </div>
+</div>
 </form>
 {% endblock %}

@@ -45,13 +45,12 @@ class Admin(UserMixin):
     def verify_login(self, login_list):
         # 验证登录
         target_list = ['account', login_list[0]]
-        print(target_list)
         sql_result = self.sql.search_line_targetly(self.table_name, target_list)
-        print(sql_result)
-        if sql_result is None:
-            result_flag = False
-        elif sql_result[0][2] == login_list[1]:
-            result_flag = True
-        else:
+        try:
+            if sql_result[0][2] == login_list[1]:
+                result_flag = True
+            else:
+                result_flag = False
+        except:
             result_flag = False
         return result_flag

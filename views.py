@@ -14,7 +14,7 @@ def index():
     article = Article()
     article_list = article.search_all()
     article_list.reverse() # 排序
-    return render_template('index.html', article_list=article_list)
+    return render_template('index.html', article_list=article_list, page_title='INDEX')
 
 @views_blueprint.app_errorhandler(404)
 def page_not_found(e):
@@ -33,7 +33,7 @@ def login():
             return redirect(request.args.get('next') or url_for('views_blueprint.index'))
         else:
             flash('管理员账户登录失败，请检查账户密码是否正确！')
-    return render_template('login.html', form=login_form)
+    return render_template('login.html', form=login_form, page_title='ADMIN LOGIN')
 
 @views_blueprint.route('/logout')
 @login_required
@@ -52,7 +52,7 @@ def new_article():
         article.new_article()
         flash('文章提交成功')
         return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
-    return render_template('edit_article.html', form=article_form, page_title='新建文档')
+    return render_template('edit_article.html', form=article_form, page_title='NEW ARTICLE')
 
 @views_blueprint.route('/edit_article/<article_id>',methods=['GET','POST'])
 @login_required
@@ -66,7 +66,7 @@ def edit_article(article_id):
         flash('文章更新成功')
         return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
     article_form.object_to_form(article) # ??此行语句位置对功能实现有重大影响
-    return render_template('edit_article.html', form=article_form, page_title='编辑文档')
+    return render_template('edit_article.html', form=article_form, page_title='EDIT ARTICLE')
 
 @views_blueprint.route('/delete_article/<article_id>',methods=['GET','POST'])
 @login_required
@@ -82,7 +82,7 @@ def delete_article(article_id):
 def show_article_list():
     article = Article()
     article_list = article.search_all()
-    return render_template('article_list.html', article_list=article_list, page_title='文档列表')
+    return render_template('article_list.html', article_list=article_list, page_title='ARTICLE LIST')
 
 @views_blueprint.route('/article/website_info')
 def website_info():
