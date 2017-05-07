@@ -52,7 +52,7 @@ def new_article():
         article.new_article()
         flash('文章提交成功')
         return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
-    return render_template('new_article.html', form=article_form)
+    return render_template('edit_article.html', form=article_form, page_title='新建文档')
 
 @views_blueprint.route('/edit_article/<article_id>',methods=['GET','POST'])
 @login_required
@@ -60,14 +60,13 @@ def edit_article(article_id):
     article = Article()
     article.search_by_id(article_id)
     article_form = ArticleForm()
-    article_form.object_to_data(article)
+    article_form.object_to_form(article)
     if article_form.validate_on_submit():
-        article = Article()
         article.form_to_object(article_form)
-        article.new_article()
+        article.update_article()
         flash('文章更新成功')
         return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
-    return render_template('edit_article.html', form=article_form, page_title='文档编辑')
+    return render_template('edit_article.html', form=article_form, page_title='编辑文档')
 
 @views_blueprint.route('/delete_article/<article_id>',methods=['GET','POST'])
 def delete_article(article_id):
