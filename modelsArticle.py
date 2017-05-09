@@ -40,8 +40,11 @@ class Article(object):
     def get_flag_name(self):
         return self.flag
 
-    def get_flag_grade(self):
-        return self.flag is 'NOTICE'
+    def verify_tag_is_NOTICE(self):
+        return self.tag == 'NOTICE'
+
+    def verify_flag_is_ONLINE(self):
+        return self.flag == 'ONLINE'
 
     def get_create_time(self):
         return self.create_time

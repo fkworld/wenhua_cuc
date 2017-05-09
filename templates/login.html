@@ -39,7 +39,7 @@
             <div class="input-group">
                 <span class="input-group-addon">{{ form.remember_me() }}</span>
                 <span class="input-group-addon">{{ form.get_remember_me_label() }}</span>
-                <span class="input-group-btn">{{ form.submit(class="form-control btn btn-sucess",value=form.get_submit_label()) }}</span>
+                {{ form.submit(class="form-control btn btn-success",value=form.get_submit_label()) }}
             </div>
         </div>
     </div>
