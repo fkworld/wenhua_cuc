@@ -19,9 +19,10 @@ def new_render_template(template_name_or_list, **context):
 @views_blueprint.route('/', methods=['GET','POST'])
 def index():
     article = Article()
-    article_list = article.search_all()
-    article_list.reverse() # 排序
-    return new_render_template('index.html', article_list=article_list, page_title='INDEX')
+    article_notice_list = article.search_by_tag('NOTICE')
+    article_show_list = article.search_by_tag('SHOW')
+    article_exp_list = article.search_by_tag('EXP')
+    return new_render_template('index.html', article_notice_list=article_notice_list, article_show_list=article_show_list, article_exp_list=article_exp_list, page_title='INDEX')
 
 @views_blueprint.app_errorhandler(404)
 def page_not_found(e):

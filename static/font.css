@@ -1,9 +1,9 @@
 * {
-  font-family: Arial, Microsoft YaHei;
-  text-align:justify;
-  text-justify:inter-ideograph;
+  font-family: Sans-serif;
+  text-align: justify;
+  text-justify: inter-ideograph;
 }
 
 .article_context {
-  font-size: 20px;
+  font-size: 18px;
 }

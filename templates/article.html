@@ -2,7 +2,7 @@
 
 {% block page_left_head %}
 <span class="glyphicon glyphicon-home"></span>
-<a href="/">文档</a>
+<a href="/">WEBSITE</a>
 <span class="glyphicon glyphicon-chevron-right"></span>
 <a href="{{ url_for('views_blueprint.get_article_list_by_tag', article_tag=article.tag) }}">{{ article.get_tag_name() }}</a>
 <span class="glyphicon glyphicon-chevron-right"></span>
@@ -16,16 +16,16 @@
 <hr>
 <div id="article_info">
     <span class="glyphicon glyphicon-tag"></span><b>TAG:</b>{{ article.get_tag_name() }}
-    <span class="glyphicon glyphicon-time"></span><b>CREATE TIME:</b>{{ article.get_create_time() }}
-    <span class="glyphicon glyphicon-time"></span><b>UPDATE TIME:</b>{{ article.get_update_time() }}
+    <span class="glyphicon glyphicon-time"></span><b>CTIME:</b>{{ article.get_create_time() }}
+    <span class="glyphicon glyphicon-time"></span><b>UTIME:</b>{{ article.get_update_time() }}
     <span class="glyphicon glyphicon-user"></span><b>AUTHOR:</b>{{ article.author }}
 </div>
 <div id="article_operate">
     {% if current_user.is_authenticated %}
     <hr>
     <span class="glyphicon glyphicon-edit"></span><b>FLAG:</b>{{ article.get_flag_name() }}
-    <a href="{{ url_for('views_blueprint.edit_article',article_id=article.id) }}"><span class="glyphicon glyphicon-pencil"></span>EDIT</a>
-    <a href="{{ url_for('views_blueprint.delete_article',article_id=article.id) }}"><span class="glyphicon glyphicon-trash"></span>DELETE</a>
+    <a href="{{ url_for('views_blueprint.edit_article', article_id=article.id) }}"><span class="glyphicon glyphicon-pencil"></span>EDIT</a>
+    <a href="{{ url_for('views_blueprint.delete_article', article_id=article.id) }}"><span class="glyphicon glyphicon-trash"></span>DELETE</a>
     {% endif %}
 </div>
 <hr>
@@ -35,6 +35,6 @@
 {% endblock %}
 
 {% block page_left_footer %}
-<a class="label label-default"><span class="glyphicon glyphicon-save-file"></span>保存此文档为pdf</a>
-<a class="label label-default"><span class="glyphicon glyphicon-save-file"></span>保存此文档为doc</a>
+<a><span class="glyphicon glyphicon-save-file"></span>SAVE-TO-PDF</a>
+<a><span class="glyphicon glyphicon-save-file"></span>SAVE-TO-DOC</a>
 {% endblock %}
