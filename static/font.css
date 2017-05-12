@@ -1,3 +1,9 @@
 * {
-    font-family: Arial, Microsoft YaHei;
+  font-family: Arial, Microsoft YaHei;
+  text-align:justify;
+  text-justify:inter-ideograph;
+}
+
+.article_context {
+  font-size: 20px;
 }
