@@ -34,6 +34,12 @@ class Article(object):
         self.txt_html = None
         self.reading_times = None
 
+    def get_sql(self):
+        return self.sql
+    
+    def get_table_name(self):
+        return self.table_name
+
     def get_tag_name(self):
         return self.tag
     
@@ -116,32 +122,35 @@ class Article(object):
     def result_to_object(self, sql_result):
         # sql_result：一行数据是一个元组，整个数据是一个列表；[(-),...]
         # 从sql_result中获取数据，保存到对象中去
-        result_tuple = sql_result[0]
-        self.id = result_tuple[0]
-        self.title = result_tuple[1]
-        self.author = result_tuple[2]
-        self.tag = result_tuple[3]
-        self.flag = result_tuple[4]
-        self.create_time = result_tuple[5]
-        self.update_time = result_tuple[6]
-        self.txt_markdown = result_tuple[7]
-        self.txt_html = result_tuple[8]
-        self.reading_times = result_tuple[9]
+        if sql_result != []:
+            result_tuple = sql_result[0]
+            self.id = result_tuple[0]
+            self.title = result_tuple[1]
+            self.author = result_tuple[2]
+            self.tag = result_tuple[3]
+            self.flag = result_tuple[4]
+            self.create_time = result_tuple[5]
+            self.update_time = result_tuple[6]
+            self.txt_markdown = result_tuple[7]
+            self.txt_html = result_tuple[8]
+            self.reading_times = result_tuple[9]
+        else:
+            pass
 
     def result_to_object_list(self, sql_result):
         # 从sql_result中获取数据，保存为对象列表
         article_list = []
-        for i in range(len(sql_result)):
-            article = Article()
-            article.result_to_object([sql_result.pop(0)])
-            article_list.append(article)
-        return article_list
+        if sql_result is not None:
+            for i in range(len(sql_result)):
+                article = Article()
+                article.result_to_object([sql_result.pop(0)])
+                article_list.append(article)
+            return article_list
 
     def search_by_id(self, id):
         # 根据文章id搜索数据库，返回本article对象
         target_vector = ['id', id]
         result = self.sql.search_line_targetly(self.table_name, target_vector)
-        print(result)
         self.result_to_object(result)
     
     def search_by_tag(self, tag):
@@ -160,5 +169,27 @@ class Article(object):
         # 搜索全部文章，返回一个object_list
         sql_result = self.sql.search_line_all(self.table_name)
         return self.result_to_object_list(sql_result)
+    
+    def set_spea(self, spea_name):
+        table_name = 'indexs'
+        value_vector = ['article_id', self.id]
+        target_vector = ['name', spea_name]
+        self.sql.update_line_single(self.table_name, value_vector, target_vector)
+
+    def set_website_info(self):
+        spea_name = 'website_info'
+        self.set_spea(spea_name)
+
+    def set_update_info(self):
+        spea_name = 'update_info'
+        self.set_spea(spea_name)
+
+    def set_index_imax(self):
+        spea_name = 'index_imax'
+        self.set_spea(spea_name)
+
+    def set_notice_board(self):
+        spea_name = 'notice_board'
+        self.set_spea(spea_name)
 
 

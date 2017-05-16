@@ -8,8 +8,8 @@ class SQL(object):
 
 
     def __init__(self):
-        db_name = 'wenhua.db'
-        self.conn = sqlite3.connect(db_name, isolation_level=None) # 自动commit()
+        self.db_name = 'wenhua.db'
+        self.conn = sqlite3.connect(self.db_name, isolation_level=None) # 自动commit()
         self.cursor = self.conn.cursor()
         self.db_init()
         
@@ -39,10 +39,31 @@ class SQL(object):
                 power           TEXT
             );
         '''
+        cmd_table_indexs = '''
+            CREATE TABLE IF NOT EXISTS indexs
+            (
+                id              INTEGER     PRIMARY KEY     NOT NULL,
+                name            TEXT,
+                article_id      TEXT
+            );
+        '''
+        value_list_1 = (None, 'website_info', '20170507193843')
+        value_list_2 = (None, 'update_info', '20170507193843')
+        value_list_3 = (None, 'index_imax', '20170507193843')
+        value_list_4 = (None, 'notice_board', '20170507193843')
         try:
             self.cursor.execute(cmd_table_articles)
             self.cursor.execute(cmd_table_admins)
-            print('CREATE TABLE SUCESS.')
+            self.cursor.execute(cmd_table_indexs)
+            print('CREATE TABLE SUCCESS.')
+            if self.cursor.execute('SELECT * FROM indexs').fetchall() == []:
+                self.add_line('indexs', value_list_1)
+                self.add_line('indexs', value_list_2)
+                self.add_line('indexs', value_list_3)
+                self.add_line('indexs', value_list_4)
+                print('INIT TBALE INDEXS SUCCESS')
+            else:
+                pass
         except:
             print('CREATE TABLE FAILED.')
             return False
@@ -62,7 +83,7 @@ class SQL(object):
         print(cmd_add_line) # 用来测试输出的命令是否正确
         try:
             self.cursor.execute(cmd_add_line, value_list) # 采用占位符的方式执行语句
-            print('ADD LINE SUCESS.')
+            print('ADD LINE SUCCESS.')
         except:
             print('ADD LINE FAILED.')
         
@@ -86,12 +107,12 @@ class SQL(object):
         try:
             value_list.extend(target_vector) # 合并2个列表剩余的部分
             self.cursor.execute(cmd_update_line, value_list) # 同样采用占位符的方式来防止sql注入
-            print('UPDATE LINE PART SUCESS.')
+            print('UPDATE LINE PART SUCCESS.')
         except:
             print('UPDATE LINE PART FAILED.')
 
     def update_line_single(self, table_name, value_vector, target_vector):
-        # 根据目标更新一行数据中的一项，多项更新还没有想好怎么写
+        # 根据单一属性更新一行数据
         cmd_part = ['UPDATE']
         cmd_part.append(str(table_name))
         cmd_part.append('SET')
@@ -107,7 +128,7 @@ class SQL(object):
         try:
             value_vector.extend(target_vector) # 合并2个列表剩余的部分
             self.cursor.execute(cmd_update_line, value_vector) # 同样采用占位符的方式来防止sql注入
-            print('UPDATE LINE SINGLE SUCESS.')
+            print('UPDATE LINE SINGLE SUCCESS.')
         except:
             print('UPDATE LINE SINGLE FAILED.')
 
@@ -125,7 +146,7 @@ class SQL(object):
         print(cmd_delete_line)
         try:
             self.cursor.execute(cmd_delete_line, target_vector)
-            print('DELETE LINE SUCESS.')
+            print('DELETE LINE SUCCESS.')
         except:
             print('DELETE LINE FAILED.')
         
@@ -139,7 +160,7 @@ class SQL(object):
         cmd_search_line_all = step.join(cmd_part)
         try:
             self.cursor.execute(cmd_search_line_all)
-            print('SEARCH LINE ALL SUCESS.')
+            print('SEARCH LINE ALL SUCCESS.')
             return self.cursor.fetchall() # 返回结果
         except:
             print('SEARCH LINE ALL FAILED.')
@@ -156,9 +177,11 @@ class SQL(object):
         cmd_part.append('?')
         step = ' '
         cmd_search_line_targetly = step.join(cmd_part)
+        print(cmd_search_line_targetly)
+        print(target_vector)
         try:
             self.cursor.execute(cmd_search_line_targetly, target_vector)
-            print('SEARCH LINE TARGETLY SUCESS.')
+            print('SEARCH LINE TARGETLY SUCCESS.')
             return self.cursor.fetchall()
         except:
             print('SEARCH LINE TARGETLY FAILED.')
@@ -179,7 +202,7 @@ class SQL(object):
         print(cmd_search_full_text)
         try:
             self.cursor.execute(cmd_search_full_text)
-            print('SEARCH FULL TEXT SUCESS.')
+            print('SEARCH FULL TEXT SUCCESS.')
             return self.cursor.fetchall()
         except:
             print('SEARCH FULL TEXT FAILED.')

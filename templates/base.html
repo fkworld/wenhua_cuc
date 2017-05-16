@@ -5,10 +5,10 @@
     <h1><strong>国家大学生文化素质教育基地</strong> <small>中国传媒大学站</small></h1>
     <form class="form-inline" method="POST">
         <div class="form-group">
-            <a class="btn btn-primary" href="/article_list/NOTICE">通知</a>
-            <a class="btn btn-primary" href="/article_list/SHOW">展示</a>
-            <a class="btn btn-primary" href="/article_list/EXP">经验</a>
-            <a class="btn btn-primary" href="/article_list/LOG">日志</a>
+            <a class="btn btn-primary" href="/article_list/NOTICE">NOTICE</a>
+            <a class="btn btn-primary" href="/article_list/SHOW">SHOW</a>
+            <a class="btn btn-primary" href="/article_list/EXP">EXP</a>
+            <a class="btn btn-primary" href="/article_list/LOG">LOG</a>
             {% if current_user.is_authenticated %} <!-- 注意这里是属性而不是方法，天坑 -->
             <div class="btn-group">
                 <a type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"></a>
@@ -62,12 +62,14 @@
                     <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     <strong>NOTICE: </strong>{{ message }}
                 </div>
+                <hr>
                 {% endfor %}
+                {{ notice_board.txt_html | safe }}
             {% endblock %}
             <hr>
             {% block page_right_footer %}
-            <a class="label label-info" href="/article/website_info">网站说明</a>
-            <a class="label label-info" href="/article/update_info">更新公告</a>
+            <a class="label label-info" href="/article/website_info">WEBSITE-INFO</a>
+            <a class="label label-info" href="/article/update_info">UPDATE-INFO</a>
             <a class="label label-info" href="http://git.cucplus.com/fengyong/wenhua_cuc">GITLAB</a>
             {% endblock %}
         </div>

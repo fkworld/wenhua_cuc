@@ -4,17 +4,19 @@ from flask_login import login_user,logout_user,login_required,current_user
 from start import login_manager
 from modelsAdmin import Admin
 from modelsArticle import Article
+from modelsSPEA import WebsiteInfo,UpdateInfo,IndexImax,NoticeBoard
 from forms import ArticleForm,LoginForm,SearchForm
 
 views_blueprint = Blueprint('views_blueprint', __name__)
 
-
 def new_render_template(template_name_or_list, **context):
     # 重写渲染函数，在新函数中做传递search_form参数和提交判定
     search_form = SearchForm()
+    notice_board = NoticeBoard()
+    notice_board.get_notice_board()
     if search_form.validate_on_submit():
         return redirect(url_for('views_blueprint.search_by_key_word', key_word=search_form.key_word.data))
-    return render_template(template_name_or_list, **context, search_form=search_form)
+    return render_template(template_name_or_list, **context, search_form=search_form, notice_board=notice_board)
 
 @views_blueprint.route('/', methods=['GET','POST'])
 def index():
@@ -22,7 +24,9 @@ def index():
     article_notice_list = article.search_by_tag('NOTICE')
     article_show_list = article.search_by_tag('SHOW')
     article_exp_list = article.search_by_tag('EXP')
-    return new_render_template('index.html', article_notice_list=article_notice_list, article_show_list=article_show_list, article_exp_list=article_exp_list, page_title='INDEX')
+    index_imax = IndexImax()
+    index_imax.get_index_imax()
+    return new_render_template('index.html', article_notice_list=article_notice_list, article_show_list=article_show_list, article_exp_list=article_exp_list, index_imax=index_imax, page_title='INDEX')
 
 @views_blueprint.app_errorhandler(404)
 def page_not_found(e):
@@ -94,15 +98,15 @@ def show_article_list():
 
 @views_blueprint.route('/article/website_info', methods=['GET','POST'])
 def website_info():
-    article = Article()
-    article.search_by_id(1)
-    return new_render_template('article.html', article=article)
+    website_info = WebsiteInfo()
+    website_info.get_website_info()
+    return new_render_template('article.html', article=website_info)
 
 @views_blueprint.route('/article/update_info', methods=['GET','POST'])
 def update_info():
-    article = Article()
-    article.search_by_id(2)
-    return new_render_template('article.html', article=article)
+    update_info = UpdateInfo()
+    update_info.get_update_info()
+    return new_render_template('article.html', article=update_info)
 
 @views_blueprint.route('/article/<article_id>', methods=['GET','POST'])
 def get_article_by_id(article_id):
@@ -124,4 +128,12 @@ def search_by_key_word(key_word):
 
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
-    return new_render_template('bootstrap.html')
+    article = Article()
+    article.search_by_id('20170507193843')
+    return new_render_template('article.html', article=article)
+
+
+
+if __name__=='__main__':
+    article = Article()
+    article.search_by_id('20170507193843')
