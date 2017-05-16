@@ -14,7 +14,7 @@
     <h2>{{ article.title }}</h2>
 </div>
 <hr>
-<div id="article_info">
+<div id="article_info" class="article_info">
     <span class="glyphicon glyphicon-tag"></span><b>TAG:</b>{{ article.get_tag_name() }}
     <span class="glyphicon glyphicon-time"></span><b>CTIME:</b>{{ article.get_create_time() }}
     <span class="glyphicon glyphicon-time"></span><b>UTIME:</b>{{ article.get_update_time() }}
