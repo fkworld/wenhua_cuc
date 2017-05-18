@@ -80,7 +80,6 @@ class SQL(object):
         cmd_part.append(')')
         step = ' ' # 空格
         cmd_add_line = step.join(cmd_part)
-        print(cmd_add_line) # 用来测试输出的命令是否正确
         try:
             self.cursor.execute(cmd_add_line, value_list) # 采用占位符的方式执行语句
             print('ADD LINE SUCCESS.')
@@ -143,7 +142,6 @@ class SQL(object):
         cmd_part.append('?')
         step = ' '
         cmd_delete_line = step.join(cmd_part)
-        print(cmd_delete_line)
         try:
             self.cursor.execute(cmd_delete_line, target_vector)
             print('DELETE LINE SUCCESS.')
@@ -177,8 +175,6 @@ class SQL(object):
         cmd_part.append('?')
         step = ' '
         cmd_search_line_targetly = step.join(cmd_part)
-        print(cmd_search_line_targetly)
-        print(target_vector)
         try:
             self.cursor.execute(cmd_search_line_targetly, target_vector)
             print('SEARCH LINE TARGETLY SUCCESS.')
@@ -199,7 +195,6 @@ class SQL(object):
         cmd_part.append('\'%' + str(key_word) + '%\'')
         step = ' '
         cmd_search_full_text = step.join(cmd_part)
-        print(cmd_search_full_text)
         try:
             self.cursor.execute(cmd_search_full_text)
             print('SEARCH FULL TEXT SUCCESS.')

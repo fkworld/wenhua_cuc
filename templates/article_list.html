@@ -9,8 +9,8 @@
 
 {% block page_left_body %}
 {% if current_user.is_authenticated %}
-    {%include 'article_list_admin.html'%}
+    {% include 'article_list_admin.html' %}
 {% else %}
-    {%include 'article_list_visitor.html'%}
+    {% include 'article_list_visitor.html' %}
 {% endif %}
 {% endblock %}

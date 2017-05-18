@@ -174,22 +174,6 @@ class Article(object):
         table_name = 'indexs'
         value_vector = ['article_id', self.id]
         target_vector = ['name', spea_name]
-        self.sql.update_line_single(self.table_name, value_vector, target_vector)
-
-    def set_website_info(self):
-        spea_name = 'website_info'
-        self.set_spea(spea_name)
-
-    def set_update_info(self):
-        spea_name = 'update_info'
-        self.set_spea(spea_name)
-
-    def set_index_imax(self):
-        spea_name = 'index_imax'
-        self.set_spea(spea_name)
-
-    def set_notice_board(self):
-        spea_name = 'notice_board'
-        self.set_spea(spea_name)
+        self.sql.update_line_single(table_name, value_vector, target_vector)
 
 

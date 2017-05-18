@@ -126,6 +126,14 @@ def search_by_key_word(key_word):
     article_list = article.search_by_key_word(key_word)
     return new_render_template('article_list.html', article_list=article_list, page_title='SEARCH:'+key_word)
 
+@views_blueprint.route('/article/set_spea/<article_id>/<spea_name>', methods=['GET','POST'])
+def set_spea(article_id, spea_name):
+    article = Article()
+    article.search_by_id(article_id)
+    article.set_spea(spea_name)
+    flash('SET' + spea_name + 'SUCCESS')
+    return redirect(request.args.get('next') or url_for('views_blueprint.index'))
+
 @views_blueprint.route('/_test',methods=['GET','POST'])
 def _test():
     article = Article()
