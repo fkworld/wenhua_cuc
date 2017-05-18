@@ -9,6 +9,8 @@
 
 {% block page_left_body %}
 <div class="jumbotron">
+    <h1>{{ index_imax.get_title() }}</h1>
+    <hr>
     {{ index_imax.txt_html | safe }}
 </div>
 <hr>
