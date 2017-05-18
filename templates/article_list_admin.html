@@ -8,7 +8,12 @@
         </tr>
         {% for article in article_list %}
         <tr>
-            <td><a href="{{url_for('views_blueprint.get_article_by_id', article_id=article.id)}}">{{ article.title }}</a></td>
+            <td>
+                <a href="{{ url_for('views_blueprint.get_article_by_id', article_id=article.id) }}">{{ article.get_title() }}</a>
+                {% for spea_name in article.get_spea_name() %}
+                <span class="label label-info">{{ spea_name }}</span>
+                {% endfor %}
+            </td>
             <td>{{ article.get_tag_name() }}</td>
             <td>{{ article.get_flag_name() }}</td>
             <td>

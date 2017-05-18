@@ -40,6 +40,9 @@ class Article(object):
     def get_table_name(self):
         return self.table_name
 
+    def get_title(self):
+        return self.title
+
     def get_tag_name(self):
         return self.tag
     
@@ -171,9 +174,23 @@ class Article(object):
         return self.result_to_object_list(sql_result)
     
     def set_spea(self, spea_name):
+        # 设置文档为4种特殊文档
         table_name = 'indexs'
         value_vector = ['article_id', self.id]
         target_vector = ['name', spea_name]
         self.sql.update_line_single(table_name, value_vector, target_vector)
+
+    def get_spea_name(self):
+        # 获得spea_name，如果不是spea，则返回None
+        table_name = 'indexs'
+        sql_result = self.sql.search_line_all(table_name)
+        result = []
+        for i in range(len(sql_result)):
+            if self.id in sql_result[i]:
+                result.append(sql_result[i][1])
+        if len(result) == 0:
+            return '' # 此处不能返回None，需要返回一个空字符串
+        else:
+            return result # 此处返回一个spea_name的列表，防止多个spea设置情况的出现
 
 

@@ -11,7 +11,7 @@
 
 {%block page_left_body%}
 <div id="article_title">
-    <h2>{{ article.title }}</h2>
+    <h2>{{ article.get_title() }}</h2>
 </div>
 <hr>
 <div id="article_info" class="article_info">
@@ -25,6 +25,10 @@
     <hr>
     <span class="glyphicon glyphicon-flag"></span><b>FLAG:</b>{{ article.get_flag_name() }}
     {% include 'admin_operate.html' %}
+    <hr>
+    {% for spea_name in article.get_spea_name() %}
+    <span class="label label-info">{{ spea_name }}</span>
+    {% endfor %}
     {% endif %}
 </div>
 <hr>
