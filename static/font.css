@@ -4,11 +4,24 @@
   text-justify: inter-ideograph;
 }
 
-.article_context {
-  font-size: 18px;
+.article_txt {
+  font-size: 20px;
 }
 
 .article_info {
-  font-size: 14px;
+  font-size: 15px;
   color: #666;
+}
+
+.visitor_article_title {
+  font-size: 20px;
+  padding: 8px 15px;
+  margin-bottom: 10px;
+  list-style: none;
+  background-color: #DDD;
+  border-radius: 4px;
+}
+
+.visitor_article_txt {
+  font: 15px;
 }

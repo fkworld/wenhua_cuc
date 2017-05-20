@@ -30,7 +30,7 @@ def index():
 
 @views_blueprint.app_errorhandler(404)
 def page_not_found(e):
-    return new_render_template('404.html'),404
+    return new_render_template('404.html', page_title='404_page_not_found'),404
 
 @views_blueprint.route('/login', methods=['GET','POST'])
 def login():
@@ -134,11 +134,9 @@ def set_spea(article_id, spea_name):
     flash('SET' + spea_name + 'SUCCESS')
     return redirect(request.args.get('next') or url_for('views_blueprint.index'))
 
-@views_blueprint.route('/_test',methods=['GET','POST'])
-def _test():
-    article = Article()
-    article.search_by_id('20170507193843')
-    return new_render_template('article.html', article=article)
+@views_blueprint.route('/test',methods=['GET','POST'])
+def test():
+    return new_render_template('test.html')
 
 
 

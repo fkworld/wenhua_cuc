@@ -11,9 +11,8 @@
 
 {%block page_left_body%}
 <div id="article_title">
-    <h2>{{ article.get_title() }}</h2>
+    <h1>{{ article.get_title() }}</h1>
 </div>
-<hr>
 <div id="article_info" class="article_info">
     <span class="glyphicon glyphicon-tag"></span><b>TAG:</b>{{ article.get_tag_name() }}
     <span class="glyphicon glyphicon-time"></span><b>CTIME:</b>{{ article.get_create_time() }}
@@ -22,17 +21,15 @@
 </div>
 <div id="article_operate">
     {% if current_user.is_authenticated %}
-    <hr>
     <span class="glyphicon glyphicon-flag"></span><b>FLAG:</b>{{ article.get_flag_name() }}
     {% include 'admin_operate.html' %}
-    <hr>
     {% for spea_name in article.get_spea_name() %}
     <span class="label label-info">{{ spea_name }}</span>
     {% endfor %}
     {% endif %}
 </div>
 <hr>
-<div id="article_context" class="article_context">
+<div id="article_txt" class="article_txt">
     {{ article.txt_html | safe }}
 </div>
 {% endblock %}

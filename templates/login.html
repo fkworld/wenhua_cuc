@@ -8,9 +8,10 @@
 {% endblock %}
 
 {% block page_left_body %}
-<div class="page-header">
-    <h2>{{ page_title }}</h2>
+<div id="page_title">
+    <h1>{{ page_title }}</h1>
 </div>
+<hr>
 <form method='POST'>
 {{ form.hidden_tag() }} <!-- 此项与CSRF功能有关，不可省略 -->
 <div class="form-group">
