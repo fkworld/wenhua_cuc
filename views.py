@@ -1,11 +1,11 @@
-from flask import Flask,render_template,redirect,request,url_for,flash,Blueprint
+from flask import Flask,render_template,redirect,request,url_for,flash,Blueprint,g
 from flask_login import login_user,logout_user,login_required,current_user
 
 from start import login_manager
 from modelsAdmin import Admin
 from modelsArticle import Article
 from modelsSPEA import WebsiteInfo,UpdateInfo,IndexImax,NoticeBoard
-from forms import ArticleForm,LoginForm,SearchForm,AddAdminForm
+from forms import ArticleForm,LoginForm,SearchForm,AddAdminForm,ChangePasswordForm
 
 views_blueprint = Blueprint('views_blueprint', __name__)
 
@@ -40,37 +40,35 @@ def login():
         login_list = [login_form.account.data, login_form.password.data]
         if admin.verify_login(login_list):
             login_user(admin, login_form.remember_me.data)
-            flash('管理员账户登录成功！')
+            flash('ADMIN LOGIN SUCCESS!')
             return redirect(request.args.get('next') or url_for('views_blueprint.index'))
         else:
-            flash('管理员账户登录失败，请检查账户密码是否正确！')
+            flash('ADMIN LOGIN FAIL! PLEASE CHECK YOUR ACCOUNT AND PASSWORD!')
     return new_render_template('login.html', form=login_form, page_title='ADMIN LOGIN')
 
 @views_blueprint.route('/logout', methods=['GET','POST'])
 @login_required
 def logout():
     logout_user()
-    flash('管理员账户登出！')
+    flash('ADMIN LOGOUT!')
     return redirect(url_for('views_blueprint.index'))
 
-@views_blueprint.route('/add_admin', methods=['GET','POST'])
+@views_blueprint.route('/admin', methods=['GET','POST'])
 @login_required
-def add_admin():
-    add_admin_form = AddAdminForm()
-    if add_admin_form.validate_on_submit():
-        admin = Admin()
-        add_admin_list = [add_admin_form.account.data, add_admin_form.password.data, add_admin_form.info.data]
-        admin.add_new_admin(add_admin_list)
-        flash('ADD ADMIN SUCCESS!')
-        return redirect(url_for('views_blueprint.index'))
-    return new_render_template('admin_add.html', form=add_admin_form, page_title='ADD ADMIN')
-
-@views_blueprint.route('/show_admin_list', methods=['GET','POST'])
-@login_required
-def show_admin_list():
-    admin = Admin()
+def admin():
+    admin = current_user
     admin_list = admin.search_all()
-    return new_render_template('admin_list.html', admin_list=admin_list, page_title='ADMIN LIST')
+    add_admin_form = AddAdminForm()
+    change_password_form = ChangePasswordForm()
+    if add_admin_form.validate_on_submit():
+        admin.add_new_admin(add_admin_form)
+        flash('ADD ADMIN SUCCESS!')
+        return redirect(url_for('views_blueprint.admin'))
+    if change_password_form.validate_on_submit():
+        admin.change_password(change_password_form)
+        flash('CHANGE PASSWORD SUCCESS!')
+        return redirect(url_for('views_blueprint.admin'))
+    return new_render_template('admin.html', admin_list=admin_list, change_password_form=change_password_form, add_admin_form=add_admin_form, page_title='ADMIN')
 
 @views_blueprint.route('/new_article',methods=['GET','POST'])
 @login_required

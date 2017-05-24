@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,BooleanField,SubmitField,SelectField,TextAreaField
-from wtforms.validators import DataRequired,Length,EqualTo
+from wtforms.validators import DataRequired,Length,EqualTo,Email
 from modelsArticle import Article
 
 class ArticleForm(FlaskForm):
@@ -63,6 +63,8 @@ class AddAdminForm(FlaskForm):
     account = StringField(validators=[DataRequired()])
     password = PasswordField(validators=[DataRequired()])
     password_verify = PasswordField(validators=[DataRequired(), EqualTo('password')])
+    phone = StringField(validators=[Length(11)])
+    email = StringField(validators=[Email()])
     info = StringField(validators=None)
     submit = SubmitField()
 
@@ -73,10 +75,34 @@ class AddAdminForm(FlaskForm):
         return 'PASSWORD'
 
     def get_password_verify_label(self):
-        return 'PASSWORD-VERIFY'
+        return 'REPEAT-PASSWORD'
+
+    def get_phone_label(self):
+        return 'PHONE'
+
+    def get_email_label(self):
+        return 'EMAIL'
 
     def get_info_label(self):
         return 'INFO'
 
     def get_submit_label(self):
         return 'ADD ADMIN'
+
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField(validators=[DataRequired()])
+    new_password = PasswordField(validators=[DataRequired()])
+    new_password_verify = PasswordField(validators=[DataRequired()])
+    submit = SubmitField()
+
+    def get_old_password_label(self):
+        return 'OLD-PASSWORD'
+    
+    def get_new_password_label(self):
+        return 'NEW-PASSWORD'
+
+    def get_new_password_verify_label(self):
+        return 'REPEAT-PASSWORD'
+
+    def get_submit_label(self):
+        return 'UPDATE'

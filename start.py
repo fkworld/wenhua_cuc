@@ -20,6 +20,7 @@ def create_app():
         admin = Admin()
         admin.get_admin_object(admin_id)
         return admin
+
     return app
 
 #app=create_app()
