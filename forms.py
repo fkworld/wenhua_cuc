@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,BooleanField,SubmitField,SelectField,TextAreaField
-from wtforms.validators import DataRequired,Length,Email
+from wtforms.validators import DataRequired,Length,EqualTo
 from modelsArticle import Article
 
 class ArticleForm(FlaskForm):
@@ -58,3 +58,21 @@ class SearchForm(FlaskForm):
 
     def get_submit_label(self):
         return 'SEARCH'
+
+class AddAdminForm(FlaskForm):
+    account = StringField(validators=[DataRequired()])
+    password = PasswordField(validators=[DataRequired()])
+    password_verify = PasswordField(validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField()
+
+    def get_account_label(self):
+        return 'ACCOUNT'
+
+    def get_password_label(self):
+        return 'PASSWORD'
+
+    def get_password_verify_label(self):
+        return 'PASSWORD-VERIFY'
+
+    def get_submit_label(self):
+        return 'ADD ADMIN'

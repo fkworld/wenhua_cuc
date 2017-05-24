@@ -5,7 +5,7 @@ from start import login_manager
 from modelsAdmin import Admin
 from modelsArticle import Article
 from modelsSPEA import WebsiteInfo,UpdateInfo,IndexImax,NoticeBoard
-from forms import ArticleForm,LoginForm,SearchForm
+from forms import ArticleForm,LoginForm,SearchForm,AddAdminForm
 
 views_blueprint = Blueprint('views_blueprint', __name__)
 
@@ -41,7 +41,6 @@ def login():
         if admin.verify_login(login_list):
             login_user(admin, login_form.remember_me.data)
             flash('管理员账户登录成功！')
-            print('Login sucess.')
             return redirect(request.args.get('next') or url_for('views_blueprint.index'))
         else:
             flash('管理员账户登录失败，请检查账户密码是否正确！')
@@ -53,6 +52,18 @@ def logout():
     logout_user()
     flash('管理员账户登出！')
     return redirect(url_for('views_blueprint.index'))
+
+@views_blueprint.route('/add_admin', methods=['GET','POST'])
+@login_required
+def add_admin():
+    add_admin_form = AddAdminForm()
+    if add_admin_form.validate_on_submit():
+        admin = Admin()
+        add_admin_list = [add_admin_form.account.data, add_admin_form.password.data]
+        admin.add_new_admin(add_admin_list)
+        flash('ADD ADMIN SUCCESS!')
+        return redirect(url_for('views_blueprint.index'))
+    return new_render_template('add_admin.html', form=add_admin_form, page_title='ADD ADMIN')
 
 @views_blueprint.route('/new_article',methods=['GET','POST'])
 @login_required

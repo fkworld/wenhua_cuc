@@ -47,21 +47,27 @@ class SQL(object):
                 article_id      TEXT
             );
         '''
-        value_list_1 = (None, 'website_info', '20170507193843')
-        value_list_2 = (None, 'update_info', '20170507193843')
-        value_list_3 = (None, 'index_imax', '20170507193843')
-        value_list_4 = (None, 'notice_board', '20170507193843')
+        index_init_value_list_1 = (None, 'website_info', None)
+        index_init_value_list_2 = (None, 'update_info', None)
+        index_init_value_list_3 = (None, 'index_imax', None)
+        index_init_value_list_4 = (None, 'notice_board', None)
+
+        admin_init_value_list_1 = (0, 'admin', '******', 'HIGH')
+
         try:
             self.cursor.execute(cmd_table_articles)
             self.cursor.execute(cmd_table_admins)
             self.cursor.execute(cmd_table_indexs)
             print('CREATE TABLE SUCCESS.')
-            if self.cursor.execute('SELECT * FROM indexs').fetchall() == []:
-                self.add_line('indexs', value_list_1)
-                self.add_line('indexs', value_list_2)
-                self.add_line('indexs', value_list_3)
-                self.add_line('indexs', value_list_4)
-                print('INIT TBALE INDEXS SUCCESS')
+            if self.search_line_all('indexs') == []:
+                self.add_line('indexs', index_init_value_list_1)
+                self.add_line('indexs', index_init_value_list_2)
+                self.add_line('indexs', index_init_value_list_3)
+                self.add_line('indexs', index_init_value_list_4)
+                print('INIT INDEXS SUCCESS')
+            if self.search_line_all('admins') == []:
+                self.add_line('admins', admin_init_value_list_1)
+                print('INIT ADMINS SUCCESS')
             else:
                 pass
         except:
