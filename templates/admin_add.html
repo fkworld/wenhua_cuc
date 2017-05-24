@@ -46,6 +46,16 @@
 </div>
 <div class="form-group">
     <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon">{{ form.get_info_label() }}</span>
+                {{ form.info(class="form-control") }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="row">
         <div class="col-lg-3">
             {{ form.submit(class="form-control btn btn-success",value=form.get_submit_label()) }}
         </div>

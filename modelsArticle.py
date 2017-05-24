@@ -146,7 +146,7 @@ class Article(object):
         if sql_result is not None:
             for i in range(len(sql_result)):
                 article = Article()
-                article.result_to_object([sql_result.pop(0)])
+                article.result_to_object([sql_result.pop()])
                 article_list.append(article)
             return article_list
 

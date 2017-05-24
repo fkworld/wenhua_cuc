@@ -59,11 +59,18 @@ def add_admin():
     add_admin_form = AddAdminForm()
     if add_admin_form.validate_on_submit():
         admin = Admin()
-        add_admin_list = [add_admin_form.account.data, add_admin_form.password.data]
+        add_admin_list = [add_admin_form.account.data, add_admin_form.password.data, add_admin_form.info.data]
         admin.add_new_admin(add_admin_list)
         flash('ADD ADMIN SUCCESS!')
         return redirect(url_for('views_blueprint.index'))
-    return new_render_template('add_admin.html', form=add_admin_form, page_title='ADD ADMIN')
+    return new_render_template('admin_add.html', form=add_admin_form, page_title='ADD ADMIN')
+
+@views_blueprint.route('/show_admin_list', methods=['GET','POST'])
+@login_required
+def show_admin_list():
+    admin = Admin()
+    admin_list = admin.search_all()
+    return new_render_template('admin_list.html', admin_list=admin_list, page_title='ADMIN LIST')
 
 @views_blueprint.route('/new_article',methods=['GET','POST'])
 @login_required

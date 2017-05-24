@@ -36,7 +36,8 @@ class SQL(object):
                 id              INTEGER     PRIMARY KEY     NOT NULL,
                 account         TEXT,
                 password        TEXT,
-                power           TEXT
+                power           TEXT,
+                info            TEXT
             );
         '''
         cmd_table_indexs = '''
@@ -52,7 +53,7 @@ class SQL(object):
         index_init_value_list_3 = (None, 'index_imax', None)
         index_init_value_list_4 = (None, 'notice_board', None)
 
-        admin_init_value_list_1 = (0, 'admin', '******', 'HIGH')
+        admin_init_value_list_1 = (0, 'admin', '******', 'HIGH', 'HOST')
 
         try:
             self.cursor.execute(cmd_table_articles)

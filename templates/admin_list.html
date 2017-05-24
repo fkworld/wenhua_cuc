@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block page_left_head %}
+<span class="glyphicon glyphicon-home"></span>
+<a href="/">WEBSITE</a>
+<span class="glyphicon glyphicon-chevron-right"></span>
+<a href="" class="disable">{{ page_title }}</a>
+{% endblock %}
+
+{% block page_left_body %}
+<div id="page_title">
+    <h1>{{ page_title }} <small>admin list</small></h1>
+</div>
+<hr>
+<div id="admin_list">
+    <table class="table table-hover table-bordered">
+        <tr>
+            <td>ACCOUNT</td>
+            <td>INFO</td>
+        </tr>
+        {% for admin in admin_list %}
+        <tr>
+            <td>
+                {{ admin.get_account() }}
+                {% if admin.is_HIGH() %}
+                    <span class="label label-danger">{{ admin.get_power() }}</span>
+                {% endif %}
+            </td>
+            <td>{{ admin.get_info() }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

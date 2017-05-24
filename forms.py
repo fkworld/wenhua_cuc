@@ -63,6 +63,7 @@ class AddAdminForm(FlaskForm):
     account = StringField(validators=[DataRequired()])
     password = PasswordField(validators=[DataRequired()])
     password_verify = PasswordField(validators=[DataRequired(), EqualTo('password')])
+    info = StringField(validators=None)
     submit = SubmitField()
 
     def get_account_label(self):
@@ -73,6 +74,9 @@ class AddAdminForm(FlaskForm):
 
     def get_password_verify_label(self):
         return 'PASSWORD-VERIFY'
+
+    def get_info_label(self):
+        return 'INFO'
 
     def get_submit_label(self):
         return 'ADD ADMIN'
