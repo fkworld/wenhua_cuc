@@ -75,7 +75,7 @@ class AddAdminForm(FlaskForm):
         return 'PASSWORD'
 
     def get_password_verify_label(self):
-        return 'REPEAT-PASSWORD'
+        return 'REPEAT PASSWORD'
 
     def get_phone_label(self):
         return 'PHONE'
@@ -96,13 +96,43 @@ class ChangePasswordForm(FlaskForm):
     submit = SubmitField()
 
     def get_old_password_label(self):
-        return 'OLD-PASSWORD'
+        return 'OLD PASSWORD'
     
     def get_new_password_label(self):
-        return 'NEW-PASSWORD'
+        return 'NEW PASSWORD'
 
     def get_new_password_verify_label(self):
-        return 'REPEAT-PASSWORD'
+        return 'REPEAT PASSWORD'
+
+    def get_submit_label(self):
+        return 'UPDATE'
+
+class ChangePhoneForm(FlaskForm):
+    new_phone = StringField(validators=[DataRequired(), Length(11)])
+    submit = SubmitField()
+
+    def get_new_phone_label(self):
+        return 'NEW PHONE'
+
+    def get_submit_label(self):
+        return 'UPDATE'
+    
+class ChangeEmailForm(FlaskForm):
+    new_email = StringField(validators=[DataRequired(), Email()])
+    submit = SubmitField()
+
+    def get_new_email_label(self):
+        return 'NEW EMAIL'
+
+    def get_submit_label(self):
+        return 'UPDATE'
+    
+class ChangeInfoForm(FlaskForm):
+    new_info = StringField(validators=[DataRequired()])
+    submit = SubmitField()
+
+    def get_new_info_label(self):
+        return 'NEW INFO'
 
     def get_submit_label(self):
         return 'UPDATE'

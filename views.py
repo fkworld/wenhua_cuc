@@ -5,7 +5,7 @@ from start import login_manager
 from modelsAdmin import Admin
 from modelsArticle import Article
 from modelsSPEA import WebsiteInfo,UpdateInfo,IndexImax,NoticeBoard
-from forms import ArticleForm,LoginForm,SearchForm,AddAdminForm,ChangePasswordForm
+from forms import ArticleForm,LoginForm,SearchForm,AddAdminForm,ChangePasswordForm,ChangePhoneForm,ChangeEmailForm,ChangeInfoForm
 
 views_blueprint = Blueprint('views_blueprint', __name__)
 
@@ -60,6 +60,9 @@ def admin():
     admin_list = admin.search_all()
     add_admin_form = AddAdminForm()
     change_password_form = ChangePasswordForm()
+    change_phone_form = ChangePhoneForm()
+    change_email_form = ChangeEmailForm()
+    change_info_form = ChangeInfoForm()
     if add_admin_form.validate_on_submit():
         admin.add_new_admin(add_admin_form)
         flash('ADD ADMIN SUCCESS!')
@@ -68,7 +71,19 @@ def admin():
         admin.change_password(change_password_form)
         flash('CHANGE PASSWORD SUCCESS!')
         return redirect(url_for('views_blueprint.admin'))
-    return new_render_template('admin.html', admin_list=admin_list, change_password_form=change_password_form, add_admin_form=add_admin_form, page_title='ADMIN')
+    if change_phone_form.validate_on_submit():
+        admin.change_phone(change_phone_form)
+        flash('CHANGE PHONE SUCCESS!')
+        return redirect(url_for('views_blueprint.admin'))
+    if change_email_form.validate_on_submit():
+        admin.change_email(change_email_form)
+        flash('CHANGE EMIAL SUCCESS!')
+        return redirect(url_for('views_blueprint.admin'))
+    if change_info_form.validate_on_submit():
+        admin.change_info(change_info_form)
+        flash('CHANGE INFO SUCCESS!')
+        return redirect(url_for('views_blueprint.admin'))
+    return new_render_template('admin.html', admin_list=admin_list, change_password_form=change_password_form, change_phone_form=change_phone_form, change_email_form=change_email_form, change_info_form=change_info_form, add_admin_form=add_admin_form, page_title='ADMIN')
 
 @views_blueprint.route('/new_article',methods=['GET','POST'])
 @login_required

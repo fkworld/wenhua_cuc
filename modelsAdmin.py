@@ -109,6 +109,21 @@ class Admin(UserMixin):
             return True
         else:
             return False
+
+    def change_phone(self, form):
+        self.phone = form.new_phone.data
+        update_vector = ['phone', self.phone]
+        self.update_admin_single(update_vector)
+
+    def change_email(self, form):
+        self.email = form.new_email.data
+        update_vector = ['email', self.email]
+        self.update_admin_single(update_vector)
+
+    def change_info(self, form):
+        self.info = form.new_info.data
+        update_vector = ['info', self.info]
+        self.update_admin_single(update_vector)
     
     def delect_low_admin(self, admin_id):
         pass
