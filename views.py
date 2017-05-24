@@ -37,8 +37,7 @@ def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
         admin = Admin()
-        login_list = [login_form.account.data, login_form.password.data]
-        if admin.verify_login(login_list):
+        if admin.verify_login(login_form):
             login_user(admin, login_form.remember_me.data)
             flash('ADMIN LOGIN SUCCESS!')
             return redirect(request.args.get('next') or url_for('views_blueprint.index'))
