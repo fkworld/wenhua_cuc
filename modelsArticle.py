@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from sql import SQL
+from modelsAdmin import Admin
 
 time_format = '%Y-%m-%d %H:%M:%S'
 id_fomat = '%Y%m%d%H%M%S'
@@ -33,6 +34,7 @@ class Article(object):
         self.txt_markdown = None
         self.txt_html = None
         self.reading_times = None
+        self.admin_id = None
 
     def get_sql(self):
         return self.sql
@@ -65,6 +67,13 @@ class Article(object):
         now_time = datetime.now()
         return now_time
 
+    def get_admin_info(self):
+        print('1')
+        admin = Admin()
+        admin.get_admin_object(self.admin_id)
+        print(admin.account)
+        return admin
+
     def set_id(self):
         if self.id is None:
             create_time_object = datetime.strptime(self.create_time, time_format)
@@ -86,7 +95,7 @@ class Article(object):
         self.txt_markdown = form.txt_markdown.data
         self.txt_html = form.txt_markdown.data
 
-    def new_article(self):
+    def new_article(self, admin_id):
         value_list = [self.id]
         value_list.append(self.title)
         value_list.append(self.author)
@@ -97,6 +106,7 @@ class Article(object):
         value_list.append(self.txt_markdown)
         value_list.append(self.txt_html)
         value_list.append(self.reading_times)
+        value_list.append(admin_id)
         self.sql.add_line(self.table_name, value_list)
 
     def update_article(self):
@@ -137,18 +147,19 @@ class Article(object):
             self.txt_markdown = result_tuple[7]
             self.txt_html = result_tuple[8]
             self.reading_times = result_tuple[9]
+            self.admin_id = result_tuple[10]
         else:
-            pass
+            self = None
 
     def result_to_object_list(self, sql_result):
         # 从sql_result中获取数据，保存为对象列表
         article_list = []
-        if sql_result is not None:
+        if sql_result != []:
             for i in range(len(sql_result)):
                 article = Article()
                 article.result_to_object([sql_result.pop()])
                 article_list.append(article)
-            return article_list
+        return article_list
 
     def search_by_id(self, id):
         # 根据文章id搜索数据库，返回本article对象
@@ -160,6 +171,15 @@ class Article(object):
         # 根据文章tag搜索数据库，返回一个object_list
         target_vector = ['tag', tag]
         sql_result = self.sql.search_line_targetly(self.table_name, target_vector)
+        return self.result_to_object_list(sql_result)
+
+    def search_by_admin_id(self, admin_id):
+        # 根据admin_id搜索数据库
+        target_vector = ['admin_id', admin_id]
+        print('11111111111111')
+        print(admin_id)
+        sql_result = self.sql.search_line_targetly(self.table_name, target_vector)
+        print(sql_result)
         return self.result_to_object_list(sql_result)
     
     def search_by_key_word(self, key_word):

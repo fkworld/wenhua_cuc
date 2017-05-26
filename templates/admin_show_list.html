@@ -10,7 +10,7 @@
     {% for admin in admin_list %}
     <tr>
         <td>
-            {{ admin.get_account() }}
+            <a href="{{ url_for('views_blueprint.get_article_list_by_admin_id', admin_id=admin.id) }}">{{ admin.get_account() }}</a>
             {% if admin.is_HIGH() %}
                 <span class="label label-danger">{{ admin.get_power() }}</span>
             {% endif %}

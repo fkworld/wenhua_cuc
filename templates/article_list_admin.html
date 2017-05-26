@@ -13,6 +13,9 @@
                 {% for spea_name in article.get_spea_name() %}
                 <span class="label label-info">{{ spea_name }}</span>
                 {% endfor %}
+                {% if article.admin_id == current_user.id %}
+                <span class="label label-info">OWN</span>
+                {% endif %}
             </td>
             <td>{{ article.get_tag_name() }}</td>
             <td>{{ article.get_flag_name() }}</td>

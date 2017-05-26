@@ -27,7 +27,9 @@ class SQL(object):
                 update_time     TEXT,
                 txt_markdown    TEXT,
                 txt_html        TEXT,
-                reading_times   INTEGER
+                reading_times   INTEGER,
+                admin_id        INTEGER,
+                FOREIGN KEY (admin_id) REFERENCES admins(id) ON DELETE NO ACTION
             );
         '''
         cmd_table_admins = '''
@@ -184,6 +186,7 @@ class SQL(object):
         cmd_part.append('?')
         step = ' '
         cmd_search_line_targetly = step.join(cmd_part)
+        print(cmd_search_line_targetly)
         try:
             self.cursor.execute(cmd_search_line_targetly, target_vector)
             print('SEARCH LINE TARGETLY SUCCESS.')

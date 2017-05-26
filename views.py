@@ -22,8 +22,11 @@ def new_render_template(template_name_or_list, **context):
 def index():
     article = Article()
     article_notice_list = article.search_by_tag('NOTICE')
+    print(article_notice_list)
     article_show_list = article.search_by_tag('SHOW')
+    print(article_show_list)
     article_exp_list = article.search_by_tag('EXP')
+    print(article_exp_list)
     index_imax = IndexImax()
     index_imax.get_index_imax()
     return new_render_template('index.html', article_notice_list=article_notice_list, article_show_list=article_show_list, article_exp_list=article_exp_list, index_imax=index_imax, page_title='INDEX')
@@ -84,6 +87,18 @@ def admin():
         return redirect(url_for('views_blueprint.admin'))
     return new_render_template('admin.html', admin_list=admin_list, change_password_form=change_password_form, change_phone_form=change_phone_form, change_email_form=change_email_form, change_info_form=change_info_form, add_admin_form=add_admin_form, page_title='ADMIN')
 
+@views_blueprint.route('/admin/article_list/<admin_id>', methods=['GET','POST'])
+@login_required
+def get_article_list_by_admin_id(admin_id):
+    admin = Admin()
+    print("333333333333333333")
+    admin.get_admin_object(admin_id)
+    print('222222222222222222')
+    print(admin.id)
+    article = Article()
+    article_list = article.search_by_admin_id(admin.id)
+    return new_render_template('article_list.html', article_list=article_list, page_title=admin.get_account())
+
 @views_blueprint.route('/new_article',methods=['GET','POST'])
 @login_required
 def new_article():
@@ -91,7 +106,7 @@ def new_article():
     if article_form.validate_on_submit():
         article = Article()
         article.form_to_object(article_form)
-        article.new_article()
+        article.new_article(current_user.id)
         flash('文章提交成功')
         return redirect(url_for('views_blueprint.get_article_by_id',article_id=article.id))
     return new_render_template('edit_article.html', form=article_form, page_title='NEW ARTICLE')

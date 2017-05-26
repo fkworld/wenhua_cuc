@@ -21,11 +21,12 @@
 </div>
 <div id="article_operate">
     {% if current_user.is_authenticated %}
-    <span class="glyphicon glyphicon-flag"></span><b>FLAG:</b>{{ article.get_flag_name() }}
-    {% include 'admin_operate.html' %}
-    {% for spea_name in article.get_spea_name() %}
-    <span class="label label-info">{{ spea_name }}</span>
-    {% endfor %}
+        <span class="glyphicon glyphicon-flag"></span><b>FLAG:</b>{{ article.get_flag_name() }}
+        <span class="glyphicon glyphicon-flag"></span><b>ADMIN:</b>{{ article.get_admin_info().account }}
+        {% include 'article_operate.html' %}
+        {% for spea_name in article.get_spea_name() %}
+            <span class="label label-info">{{ spea_name }}</span>
+        {% endfor %}
     {% endif %}
 </div>
 <hr>
