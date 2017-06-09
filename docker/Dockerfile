@@ -3,7 +3,7 @@ FROM python
 MAINTAINER fengyong fkworld@foxmail.com
 
 RUN python -m pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install -r /root/wenhua_cuc/requirements.txt
 
 EXPOSE 5000
 
