@@ -4,7 +4,7 @@ MAINTAINER fengyong fkworld@foxmail.com
 
 WORKDIR app
 RUN python -m pip install --upgrade pip
-RUN pip install -r /root/wenhua_cuc/requirements.txt
+RUN pip install -r /app/requirements.txt
 
 EXPOSE 5000
 
