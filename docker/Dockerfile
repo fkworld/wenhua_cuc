@@ -4,8 +4,6 @@ MAINTAINER fengyong fkworld@foxmail.com
 
 WORKDIR /root/wenhua_cuc
 RUN python -m pip install --upgrade pip
-
-ENV venv/scripts/active.bat
 RUN pip install -r /root/wenhua_cuc/requirements.txt
 
 EXPOSE 5000
