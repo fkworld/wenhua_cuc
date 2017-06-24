@@ -2,7 +2,7 @@ FROM python
 
 MAINTAINER fengyong fkworld@foxmail.com
 
-WORKDIR /root/wenhua_cuc
+WORKDIR /root/wenhua_cuc 
 RUN python -m pip install --upgrade pip
 RUN pip install -r /root/wenhua_cuc/requirements.txt
 
