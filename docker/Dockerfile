@@ -8,4 +8,4 @@ RUN pip install -r /app/requirements.txt
 
 EXPOSE 5000
 
-CMD gunicorn -w 4 -b 114.215.141.112:5000 start:app
+CMD gunicorn -w 4 -b 0.0.0.0:5000 start:app
