@@ -23,9 +23,8 @@ def create_app():
 
     return app
 
-app=create_app()
-'''
+app = create_app()
+
 if __name__ == '__main__':
-    app=create_app()
-    app.run(debug=True)
-'''
+    # app = create_app() # gunicorn方式启动需要把这句话放在外面
+    app.run()
