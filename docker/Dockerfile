@@ -2,7 +2,6 @@ FROM python
 
 MAINTAINER fengyong fkworld@foxmail.com
 
-ENV PATH .
 WORKDIR app
 VOLUME ["/app"]
 COPY requirements.txt /app/
