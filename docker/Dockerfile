@@ -2,7 +2,10 @@ FROM python
 
 MAINTAINER fengyong fkworld@foxmail.com
 
+ENV PATH .
 WORKDIR app
+VOLUME ["/app"]
+COPY requirements.txt /app/
 RUN python -m pip install --upgrade pip
 RUN pip install -r /app/requirements.txt
 
